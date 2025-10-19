@@ -1,0 +1,34 @@
+baseURL = 'https://example.org/'
+languageCode = 'es-ES'
+title = 'My New Hugo Site'
+
+[menus]
+  [[menus.main]]
+    name = 'Home'
+    pageRef = '/'
+    weight = 10
+
+  [[menus.main]]
+    name = 'Posts'
+    pageRef = '/posts'
+    weight = 20
+
+[params.Author]
+    name='Roberto Morais'
+    bio='Un desarrollador de software de Golang, PHP y JavaScript'
+    image='/images/author/fuenrob.jpg'
+    social = [
+       { url='https://github.com/FuenRob', icon='fab fa-github' },
+       { url='https://www.linkedin.com/in/robercmorais/', icon='fab fa-linkedin' },
+       { url='https://x.com/FuenRob', icon='fab fa-x-twitter' }
+    ]
+    links = [
+      { name='GitHub', url='https://github.com/FuenRob', description='Aquí puedes encontrar mis proyectos', icon='fab fa-github' },
+      { name='LinkedIn', url='https://www.linkedin.com/in/robercmorais/', icon='fab fa-linkedin' },
+      { name='Twitter', url='https://x.com/FuenRob', icon='fab fa-x-twitter' }
+    ]
+
+[module]
+  [module.hugoVersion]
+    extended = false
+    min = '0.146.0'

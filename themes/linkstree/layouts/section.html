@@ -1,0 +1,51 @@
+{{ define "main" }}
+  <div class="section-header">
+    <h1 class="section-title">{{ .Title }}</h1>
+    {{ with .Description }}<p class="section-subtitle">{{ . }}</p>{{ end }}
+  </div>
+
+  {{ with .Content }}
+    <div class="section-intro">{{ . }}</div>
+  {{ end }}
+
+  {{ with .Pages }}
+    <div class="links section-links">
+      {{ range . }}
+        {{ $p := . }}
+        <div class="link-item">
+          <a href="{{ $p.RelPermalink }}">
+            <div class="link-inner link-inner-vertical">
+              {{ with $p.Params.image }}
+                {{ $img := . }}
+                {{ with $p.Resources.GetMatch $img }}
+                  <div class="link-image-wrap">
+                    <img class="link-image" src="{{ .RelPermalink }}" loading="lazy" alt="{{ with $p.Params.imageAlt }}{{ . }}{{ else }}{{ $p.Title }}{{ end }}">
+                  </div>
+                {{ else }}
+                  {{ if (hasPrefix $img "http") }}
+                    <div class="link-image-wrap">
+                      <img class="link-image" src="{{ $img }}" loading="lazy" alt="{{ with $p.Params.imageAlt }}{{ . }}{{ else }}{{ $p.Title }}{{ end }}">
+                    </div>
+                  {{ else }}
+                    <div class="link-image-wrap">
+                      <img class="link-image" src="{{ $img | relURL }}" loading="lazy" alt="{{ with $p.Params.imageAlt }}{{ . }}{{ else }}{{ $p.Title }}{{ end }}">
+                    </div>
+                  {{ end }}
+                {{ end }}
+              {{ end }}
+
+              <div class="link-text">
+                {{ if $p.LinkTitle }}
+                  <h3 class="link-name">{{ $p.LinkTitle }}</h3>
+                {{ else }}
+                  <h3 class="link-name">{{ $p.Title }}</h3>
+                {{ end }}
+                {{ with $p.Summary }}<p class="link-description">{{ . }}</p>{{ end }}
+              </div>
+            </div>
+          </a>
+        </div>
+      {{ end }}
+    </div>
+  {{ end }}
+{{ end }}

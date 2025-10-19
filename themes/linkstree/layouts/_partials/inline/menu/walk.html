@@ -1,0 +1,27 @@
+{{- $page := .page }}
+{{- range .menuEntries }}
+  {{- $href := .URL }}
+  {{- $class := "" }}
+  {{- $aria := "" }}
+  {{- if $page.IsMenuCurrent .Menu . }}
+    {{- $class = "active" }}
+    {{- $aria = "page" }}
+  {{- else if $page.HasMenuCurrent .Menu . }}
+    {{- $class = "ancestor" }}
+    {{- $aria = "true" }}
+  {{- end }}
+  {{- $name := .Name }}
+  {{- with .Identifier }}
+    {{- with T . }}
+      {{- $name = . }}
+    {{- end }}
+  {{- end }}
+  <li>
+    <a href="{{ $href }}" {{ if $class }}class="{{ $class }}"{{ end }} {{ if $aria }}aria-current="{{ $aria }}"{{ end }}>{{ $name }}</a>
+    {{- with .Children }}
+      <ul>
+        {{- partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) }}
+      </ul>
+    {{- end }}
+  </li>
+{{- end }}

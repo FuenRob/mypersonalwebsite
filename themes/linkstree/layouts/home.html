@@ -1,0 +1,48 @@
+{{ define "main" }}
+    {{ with .Site.Params.Author }}
+        {{ $author := . }}
+        <div class="author">
+            {{ with $author.image }}
+            <img class="author-image" src="{{ . | relURL }}" alt="{{ $author.name }}" />
+            {{ end }}
+            {{ with $author.name }}
+            <h1 class="author-name">{{ . }}</h1>
+            {{ end }}
+            {{ with $author.bio }}
+            <h2 class="author-bio">{{ . }}</h2>
+            {{ end }}
+            {{ with $author.social }}
+            <ul class="author-social-links">
+                {{ range . }}
+                <li>
+                    <a href="{{ .url | safeURL }}" target="_blank" rel="noopener">
+                        {{ if .icon }}<i class="{{ .icon }}"></i> {{ end }}
+                    </a>
+                </li>
+                {{ end }}
+            </ul>
+            {{ end }}
+        </div>
+        {{ with $author.links }}
+        <div class="links">
+            {{ range . }}
+            <div class="link-item">
+                <a href="{{ .url | safeURL }}" target="_blank" rel="noopener">
+                    <div class="link-inner">
+                        {{ with .icon }}
+                        <div class="link-icon">
+                            <i class="{{ . }}" aria-hidden="true"></i>
+                        </div>
+                        {{ end }}
+                        <div class="link-text">
+                            {{ with .name }}<h3 class="link-name">{{ . }}</h3>{{ end }}
+                            {{ with .description }}<p class="link-description">{{ . }}</p>{{ end }}
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {{ end }}
+        </div>
+        {{ end }}
+    {{ end }}
+{{ end }}
