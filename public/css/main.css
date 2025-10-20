@@ -425,6 +425,263 @@ footer {
 }
 
 /* ============================================
+   PAGE STYLES (Individual Content Pages)
+   ============================================ */
+
+.page-container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.03em;
+  color: #111;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.page-date {
+  display: inline-block;
+  color: #666;
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.page-image-wrap {
+  width: 100%;
+  max-height: 500px;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 24px rgba(16,24,40,0.08);
+}
+
+.page-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.page-content {
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: #333;
+}
+
+.page-content h1,
+.page-content h2,
+.page-content h3,
+.page-content h4,
+.page-content h5,
+.page-content h6 {
+  margin: 2rem 0 1rem 0;
+  line-height: 1.3;
+  color: #111;
+  font-weight: 600;
+}
+
+.page-content h1 { font-size: 2rem; }
+.page-content h2 { font-size: 1.75rem; }
+.page-content h3 { font-size: 1.5rem; }
+.page-content h4 { font-size: 1.25rem; }
+
+.page-content p {
+  margin: 1rem 0;
+}
+
+.page-content a {
+  color: #0066cc;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color 160ms ease;
+}
+
+.page-content a:hover {
+  color: #0052a3;
+}
+
+.page-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.page-content blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid #0066cc;
+  background: #f8f9fa;
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
+  color: #555;
+}
+
+.page-content code {
+  background: #f5f5f5;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-family: 'Courier New', monospace;
+  color: #d63384;
+}
+
+.page-content pre {
+  background: #f5f5f5;
+  padding: 1.25rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border: 1px solid #e5e5e5;
+}
+
+.page-content pre code {
+  background: none;
+  padding: 0;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.page-content ul,
+.page-content ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.page-content li {
+  margin: 0.5rem 0;
+}
+
+.page-content hr {
+  border: none;
+  border-top: 1px solid #e5e5e5;
+  margin: 2rem 0;
+}
+
+.page-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+.page-content table th,
+.page-content table td {
+  padding: 0.75rem;
+  border: 1px solid #e5e5e5;
+  text-align: left;
+}
+
+.page-content table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #111;
+}
+
+.page-content table tr:hover {
+  background: #fafafa;
+}
+
+/* Responsive adjustments for page */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 1rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .page-content {
+    font-size: 1rem;
+  }
+
+  .page-content h1 { font-size: 1.75rem; }
+  .page-content h2 { font-size: 1.5rem; }
+  .page-content h3 { font-size: 1.25rem; }
+}
+
+/* ============================================
+   TERMS (TAGS) STYLES
+   ============================================ */
+
+.terms-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.terms-label {
+  font-weight: 600;
+  color: #666;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.terms-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.term-item {
+  margin: 0;
+}
+
+.term-link {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+  color: #333;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 200ms ease;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.term-link:hover {
+  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+  color: white;
+  border-color: #0066cc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,102,204,0.2);
+}
+
+@media (max-width: 520px) {
+  .terms-container {
+    align-items: flex-start;
+  }
+
+  .terms-label {
+    width: 100%;
+  }
+}
+
+/* ============================================
    DARK MODE STYLES
    ============================================ */
 
@@ -544,5 +801,99 @@ body.dark-mode .link-item[data-platform*="tiktok"]:hover .link-icon i,
 body.dark-mode .link-item[data-platform*="twitch"]:hover .link-description,
 body.dark-mode .link-item[data-platform*="twitch"]:hover .link-icon i {
   color: rgba(255, 255, 255, 0.9);
+}
+
+/* Dark mode styles for page content */
+body.dark-mode .page-header {
+  border-bottom-color: #444;
+}
+
+body.dark-mode .page-title {
+  color: #f0f0f0;
+}
+
+body.dark-mode .page-date {
+  color: #aaa;
+}
+
+body.dark-mode .page-image-wrap {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+body.dark-mode .page-content {
+  color: #d0d0d0;
+}
+
+body.dark-mode .page-content h1,
+body.dark-mode .page-content h2,
+body.dark-mode .page-content h3,
+body.dark-mode .page-content h4,
+body.dark-mode .page-content h5,
+body.dark-mode .page-content h6 {
+  color: #f0f0f0;
+}
+
+body.dark-mode .page-content a {
+  color: #4da6ff;
+}
+
+body.dark-mode .page-content a:hover {
+  color: #66b3ff;
+}
+
+body.dark-mode .page-content blockquote {
+  background: #2a2a2a;
+  border-left-color: #4da6ff;
+  color: #bbb;
+}
+
+body.dark-mode .page-content code {
+  background: #2a2a2a;
+  color: #ff6b9d;
+}
+
+body.dark-mode .page-content pre {
+  background: #2a2a2a;
+  border-color: #444;
+}
+
+body.dark-mode .page-content pre code {
+  color: #d0d0d0;
+}
+
+body.dark-mode .page-content hr {
+  border-top-color: #444;
+}
+
+body.dark-mode .page-content table th,
+body.dark-mode .page-content table td {
+  border-color: #444;
+}
+
+body.dark-mode .page-content table th {
+  background: #2a2a2a;
+  color: #f0f0f0;
+}
+
+body.dark-mode .page-content table tr:hover {
+  background: #252525;
+}
+
+/* Dark mode styles for terms/tags */
+body.dark-mode .terms-label {
+  color: #aaa;
+}
+
+body.dark-mode .term-link {
+  background: linear-gradient(135deg, #2a2a2a 0%, #252525 100%);
+  color: #d0d0d0;
+  border-color: #444;
+}
+
+body.dark-mode .term-link:hover {
+  background: linear-gradient(135deg, #4da6ff 0%, #3399ff 100%);
+  color: white;
+  border-color: #4da6ff;
+  box-shadow: 0 4px 8px rgba(77,166,255,0.3);
 }
 
