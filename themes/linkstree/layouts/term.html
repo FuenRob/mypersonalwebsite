@@ -1,7 +1,31 @@
 {{ define "main" }}
-  <h1>{{ .Title }}</h1>
-  {{ .Content }}
-  {{ range .Pages }}
-    <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-  {{ end }}
+  <div class="term-container">
+    <header class="term-header">
+      <h1 class="term-title">{{ .Title }}</h1>
+      {{ with .Content }}
+      <div class="term-description">{{ . }}</div>
+      {{ end }}
+      <p class="term-count">{{ len .Pages }} {{ if eq (len .Pages) 1 }}post{{ else }}posts{{ end }}</p>
+    </header>
+
+    {{ if .Pages }}
+    <div class="term-posts">
+      {{ range .Pages }}
+      <article class="term-post-item">
+        <a href="{{ .RelPermalink }}" class="term-post-link">
+          <div class="term-post-content">
+            <h2 class="term-post-title">{{ .LinkTitle }}</h2>
+            {{ with .Params.description }}
+            <p class="term-post-description">{{ . }}</p>
+            {{ end }}
+            {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
+            {{ $dateHuman := .Date | time.Format ":date_long" }}
+            <time class="term-post-date" datetime="{{ $dateMachine }}">{{ $dateHuman }}</time>
+          </div>
+        </a>
+      </article>
+      {{ end }}
+    </div>
+    {{ end }}
+  </div>
 {{ end }}
