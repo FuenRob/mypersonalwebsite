@@ -20,12 +20,16 @@ title = 'My New Hugo Site'
     social = [
        { url='https://github.com/FuenRob', icon='fab fa-github' },
        { url='https://www.linkedin.com/in/robercmorais/', icon='fab fa-linkedin' },
-       { url='https://x.com/FuenRob', icon='fab fa-x-twitter' }
+       { url='https://x.com/FuenRob', icon='fab fa-x-twitter' },
+       { url='https://www.instagram.com/fuenrob/', icon='fab fa-instagram' },
+       { url='https://www.tiktok.com/@fuenrob', icon='fab fa-tiktok' },
+       { url='https://www.youtube.com/@FuenRob', icon='fab fa-youtube' }
+
     ]
     links = [
       { name='Mi canal de YouTube', url='https://www.youtube.com/@FuenRob', description='Tutoriales de programación y desarrollo de software', icon='fab fa-youtube', platform='YouTube' },
       { name='Mi código', url='https://github.com/FuenRob', description='Aquí puedes encontrar mis proyectos', icon='fab fa-github', platform='GitHub'},
-      { name='Mi carrera profesional', url='https://www.linkedin.com/in/robercmorais/', icon='fab fa-linkedin', platform='LinkedIn' },
+      { name='Mi carrera profesional', url='https://www.linkedin.com/in/robercmorais/', description='Aquí puedes ver toda mi experiencia profesional', icon='fab fa-linkedin', platform='LinkedIn' },
       { name='Sígueme en X', url='https://x.com/FuenRob', icon='fab fa-x-twitter', platform='X' },
       { name='Sígueme en Instagram', url='https://www.instagram.com/fuenrob/', icon='fab fa-instagram', platform='Instagram' },
       { name='Sígueme en TikTok', url='https://www.tiktok.com/@fuenrob', icon='fab fa-tiktok', platform='TikTok' }

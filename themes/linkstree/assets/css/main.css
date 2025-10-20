@@ -672,10 +672,6 @@ footer {
 }
 
 @media (max-width: 520px) {
-  .terms-container {
-    align-items: flex-start;
-  }
-
   .terms-label {
     width: 100%;
   }
