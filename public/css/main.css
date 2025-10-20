@@ -140,6 +140,98 @@ header nav ul a.active {
     background-color: #fafafa;
 }
 
+/* Platform-specific hover colors */
+.link-item[data-platform*="youtube"]:hover {
+    background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+    color: white;
+    border-color: #ff0000;
+}
+
+.link-item[data-platform*="youtube"]:hover .link-description,
+.link-item[data-platform*="youtube"]:hover .link-icon i {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.link-item[data-platform*="twitter"]:hover,
+.link-item[data-platform*="x"]:hover {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    color: white;
+    border-color: #000000;
+}
+
+.link-item[data-platform*="twitter"]:hover .link-description,
+.link-item[data-platform*="twitter"]:hover .link-icon i,
+.link-item[data-platform*="x"]:hover .link-description,
+.link-item[data-platform*="x"]:hover .link-icon i {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.link-item[data-platform*="linkedin"]:hover {
+    background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
+    color: white;
+    border-color: #0077b5;
+}
+
+.link-item[data-platform*="linkedin"]:hover .link-description,
+.link-item[data-platform*="linkedin"]:hover .link-icon i {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.link-item[data-platform*="github"]:hover {
+    background: linear-gradient(135deg, #333333 0%, #1a1a1a 100%);
+    color: white;
+    border-color: #333333;
+}
+
+.link-item[data-platform*="github"]:hover .link-description,
+.link-item[data-platform*="github"]:hover .link-icon i {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.link-item[data-platform*="instagram"]:hover {
+    background: linear-gradient(135deg, #e1306c 0%, #c13584 100%);
+    color: white;
+    border-color: #e1306c;
+}
+
+.link-item[data-platform*="instagram"]:hover .link-description,
+.link-item[data-platform*="instagram"]:hover .link-icon i {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.link-item[data-platform*="facebook"]:hover {
+    background: linear-gradient(135deg, #1877f2 0%, #0c63d4 100%);
+    color: white;
+    border-color: #1877f2;
+}
+
+.link-item[data-platform*="facebook"]:hover .link-description,
+.link-item[data-platform*="facebook"]:hover .link-icon i {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.link-item[data-platform*="tiktok"]:hover {
+    background: linear-gradient(135deg, #000000 0%, #ff0050 100%);
+    color: white;
+    border-color: #000000;
+}
+
+.link-item[data-platform*="tiktok"]:hover .link-description,
+.link-item[data-platform*="tiktok"]:hover .link-icon i {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.link-item[data-platform*="twitch"]:hover {
+    background: linear-gradient(135deg, #9146ff 0%, #772ce8 100%);
+    color: white;
+    border-color: #9146ff;
+}
+
+.link-item[data-platform*="twitch"]:hover .link-description,
+.link-item[data-platform*="twitch"]:hover .link-icon i {
+    color: rgba(255, 255, 255, 0.9);
+}
+
 .link-name {
     margin: 0 0 0.25rem 0;
     font-size: 1.05rem;
@@ -283,7 +375,7 @@ footer {
 /* Responsive tweak: on small screens, make link boxes full width with padding */
 @media (max-width: 520px) {
   .link-item {
-    max-width: 100%;
+    max-width: 90%;
     padding: 0.85rem;
   }
 }

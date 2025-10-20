@@ -26,7 +26,7 @@
         {{ with $author.links }}
         <div class="links">
             {{ range . }}
-            <div class="link-item">
+            <div class="link-item" data-platform="{{ .platform | lower | replaceRE `[^a-z0-9]+` `-` }}">
                 <a href="{{ .url | safeURL }}" target="_blank" rel="noopener">
                     <div class="link-inner">
                         {{ with .icon }}
