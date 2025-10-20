@@ -36,9 +36,9 @@
 
               <div class="link-text">
                 {{ if $p.LinkTitle }}
-                  <h3 class="link-name">{{ $p.LinkTitle }}</h3>
+                  <h2 class="link-name">{{ $p.LinkTitle }}</h2>
                 {{ else }}
-                  <h3 class="link-name">{{ $p.Title }}</h3>
+                  <h2 class="link-name">{{ $p.Title }}</h2>
                 {{ end }}
                 {{ with $p.Summary }}<p class="link-description">{{ . }}</p>{{ end }}
               </div>

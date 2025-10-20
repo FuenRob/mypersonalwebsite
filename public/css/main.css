@@ -268,8 +268,12 @@ header nav ul a.active {
 .link-item[data-platform*="twitch"]:hover .link-icon i {
     color: rgba(255, 255, 255, 0.9);
 }
+h2.link-name {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.55rem;
+}
 
-.link-name {
+h3.link-name {
     margin: 0 0 0.25rem 0;
     font-size: 1.05rem;
 }
