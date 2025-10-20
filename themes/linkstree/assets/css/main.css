@@ -24,6 +24,43 @@ header {
   margin-bottom: 1rem;
 }
 
+/* Header wrapper: contains menu and theme toggle */
+.header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #f2f2f2;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.theme-toggle:hover {
+  background: #e5e5e5;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.theme-toggle i {
+  font-size: 18px;
+  color: #222;
+}
+
 /* Menu: centered horizontal layout */
 header nav {
     display: flex;
@@ -278,6 +315,7 @@ header nav ul a.active {
 footer {
     border-top: 1px solid #222;
     margin-top: 1rem;
+    text-align: center;
 }
 
 /* Section styles: elegante y en sintonía con la home */
@@ -385,3 +423,126 @@ footer {
   .link-icon { width: 72px; height: 72px; }
   .link-icon i { font-size: 32px; }
 }
+
+/* ============================================
+   DARK MODE STYLES
+   ============================================ */
+
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+
+body.dark-mode a {
+  color: #e0e0e0;
+}
+
+body.dark-mode header {
+  border-bottom-color: #444;
+}
+
+body.dark-mode footer {
+  border-top-color: #444;
+}
+
+body.dark-mode .theme-toggle {
+  background: #2a2a2a;
+  border-color: #444;
+}
+
+body.dark-mode .theme-toggle:hover {
+  background: #333;
+}
+
+body.dark-mode .theme-toggle i {
+  color: #ffd700;
+}
+
+body.dark-mode header nav ul a:hover,
+body.dark-mode header nav ul a.active {
+  background-color: #2a2a2a;
+}
+
+body.dark-mode .author-bio {
+  color: #aaa;
+}
+
+body.dark-mode .author-social-links a {
+  background: #2a2a2a;
+  color: #e0e0e0;
+}
+
+body.dark-mode .author-social-links a:hover {
+  background: #333;
+}
+
+body.dark-mode .link-item {
+  background: linear-gradient(180deg, #2a2a2a 0%, #252525 100%);
+  border-color: #444;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+}
+
+body.dark-mode .link-item:hover {
+  background-color: #2f2f2f;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+body.dark-mode .link-icon i {
+  color: #e0e0e0;
+}
+
+body.dark-mode .link-description {
+  color: #aaa;
+}
+
+body.dark-mode .section-title {
+  color: #f0f0f0;
+}
+
+body.dark-mode .section-subtitle {
+  color: #999;
+}
+
+body.dark-mode .section-intro {
+  color: #bbb;
+}
+
+body.dark-mode .link-image-wrap {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+}
+
+/* Platform-specific hover colors for dark mode - keep the same vibrant colors */
+body.dark-mode .link-item[data-platform*="youtube"]:hover,
+body.dark-mode .link-item[data-platform*="twitter"]:hover,
+body.dark-mode .link-item[data-platform*="x-"]:hover,
+body.dark-mode .link-item[data-platform*="linkedin"]:hover,
+body.dark-mode .link-item[data-platform*="github"]:hover,
+body.dark-mode .link-item[data-platform*="instagram"]:hover,
+body.dark-mode .link-item[data-platform*="facebook"]:hover,
+body.dark-mode .link-item[data-platform*="tiktok"]:hover,
+body.dark-mode .link-item[data-platform*="twitch"]:hover {
+  /* Los colores de hover de las plataformas se mantienen igual */
+  color: white;
+}
+
+body.dark-mode .link-item[data-platform*="youtube"]:hover .link-description,
+body.dark-mode .link-item[data-platform*="youtube"]:hover .link-icon i,
+body.dark-mode .link-item[data-platform*="twitter"]:hover .link-description,
+body.dark-mode .link-item[data-platform*="twitter"]:hover .link-icon i,
+body.dark-mode .link-item[data-platform*="x-"]:hover .link-description,
+body.dark-mode .link-item[data-platform*="x-"]:hover .link-icon i,
+body.dark-mode .link-item[data-platform*="linkedin"]:hover .link-description,
+body.dark-mode .link-item[data-platform*="linkedin"]:hover .link-icon i,
+body.dark-mode .link-item[data-platform*="github"]:hover .link-description,
+body.dark-mode .link-item[data-platform*="github"]:hover .link-icon i,
+body.dark-mode .link-item[data-platform*="instagram"]:hover .link-description,
+body.dark-mode .link-item[data-platform*="instagram"]:hover .link-icon i,
+body.dark-mode .link-item[data-platform*="facebook"]:hover .link-description,
+body.dark-mode .link-item[data-platform*="facebook"]:hover .link-icon i,
+body.dark-mode .link-item[data-platform*="tiktok"]:hover .link-description,
+body.dark-mode .link-item[data-platform*="tiktok"]:hover .link-icon i,
+body.dark-mode .link-item[data-platform*="twitch"]:hover .link-description,
+body.dark-mode .link-item[data-platform*="twitch"]:hover .link-icon i {
+  color: rgba(255, 255, 255, 0.9);
+}
+
