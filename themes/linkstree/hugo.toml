@@ -18,12 +18,13 @@ title = 'Roberto Morais'
     bio='Un desarrollador de software de Golang, PHP y JavaScript'
     image='/images/author/fuenrob.jpg'
     social = [
-       { url='https://github.com/FuenRob', icon='fab fa-github' },
-       { url='https://www.linkedin.com/in/robercmorais/', icon='fab fa-linkedin' },
-       { url='https://x.com/FuenRob', icon='fab fa-x-twitter' },
-       { url='https://www.instagram.com/fuenrob/', icon='fab fa-instagram' },
-       { url='https://www.tiktok.com/@fuenrob', icon='fab fa-tiktok' },
-       { url='https://www.youtube.com/@FuenRob', icon='fab fa-youtube' }
+       { url='https://github.com/FuenRob', icon='fab fa-github', ariaLabel='Ir a GitHub' },
+       { url='https://www.linkedin.com/in/robercmorais/', icon='fab fa-linkedin', ariaLabel='Ir a LinkedIn' },
+       { url='https://discord.gg/rm7r6zFq', icon='fab fa-discord', ariaLabel='Ir a Discord' },
+       { url='https://x.com/FuenRob', icon='fab fa-x-twitter', ariaLabel='Ir a X' },
+       { url='https://www.instagram.com/fuenrob/', icon='fab fa-instagram', ariaLabel='Ir a Instagram' },
+       { url='https://www.tiktok.com/@fuenrob', icon='fab fa-tiktok', ariaLabel='Ir a TikTok' },
+       { url='https://www.youtube.com/@FuenRob', icon='fab fa-youtube', ariaLabel='Ir a YouTube' }
 
     ]
     links = [

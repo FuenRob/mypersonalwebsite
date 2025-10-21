@@ -1,6 +1,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+<meta name="description" content="Blog de desarrollo de software y tecnologia de Roberto Morais">
 <meta property="og:title" content='{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}' />
 <meta property="og:description" content='{{ if .IsHome }}{{ site.Params.Author.bio }}{{ else }}{{ .Summary }}{{ end }}' />
 <meta property="og:image" content="{{ site.BaseURL }}images/author/fuenrob.jpg" />

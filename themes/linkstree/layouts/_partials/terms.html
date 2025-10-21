@@ -14,7 +14,7 @@ For a given taxonomy, renders a list of terms assigned to the page.
   <div class="terms-container">
     <ul class="terms-list">
       {{- range . }}
-        <li class="term-item"><a href="{{ .RelPermalink }}" class="term-link">{{ .LinkTitle }}</a></li>
+        <li class="term-item"><a href="{{ .RelPermalink }}" class="term-link" aria-label="{{.LinkTitle}}">{{ .LinkTitle }}</a></li>
       {{- end }}
     </ul>
   </div>

@@ -13,7 +13,7 @@
       {{ range . }}
         {{ $p := . }}
         <div class="link-item">
-          <a href="{{ $p.RelPermalink }}">
+          <a href="{{ $p.RelPermalink }}" aria-label="Ver el post {{ $p.Title }}">
             <div class="link-inner link-inner-vertical">
               {{ with $p.Params.image }}
                 {{ $img := . }}

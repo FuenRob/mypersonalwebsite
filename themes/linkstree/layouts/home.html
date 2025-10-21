@@ -3,7 +3,7 @@
         {{ $author := . }}
         <div class="author">
             {{ with $author.image }}
-            <img class="author-image" src="{{ . | relURL }}" alt="{{ $author.name }}" />
+            <img class="author-image" src="{{ . | relURL }}" alt="{{ $author.name }}" loading="lazy" />
             {{ end }}
             {{ with $author.name }}
             <h1 class="author-name">{{ . }}</h1>
@@ -15,7 +15,7 @@
             <ul class="author-social-links">
                 {{ range . }}
                 <li>
-                    <a href="{{ .url | safeURL }}" target="_blank" rel="noopener">
+                    <a href="{{ .url | safeURL }}" target="_blank" rel="noopener" aria-label="{{ .ariaLabel }}">
                         {{ if .icon }}<i class="{{ .icon }}"></i> {{ end }}
                     </a>
                 </li>
@@ -27,7 +27,7 @@
         <div class="links">
             {{ range . }}
             <div class="link-item" data-platform="{{ .platform | lower | replaceRE `[^a-z0-9]+` `-` }}">
-                <a href="{{ .url | safeURL }}" target="_blank" rel="noopener">
+                <a href="{{ .url | safeURL }}" target="_blank" rel="noopener" aria-label="{{ .name }}">
                     <div class="link-inner">
                         {{ with .icon }}
                         <div class="link-icon">

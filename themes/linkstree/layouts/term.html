@@ -12,7 +12,7 @@
     <div class="term-posts">
       {{ range .Pages }}
       <article class="term-post-item">
-        <a href="{{ .RelPermalink }}" class="term-post-link">
+        <a href="{{ .RelPermalink }}" class="term-post-link" aria-label="{{ .LinkTitle }}">
           <div class="term-post-content">
             <h2 class="term-post-title">{{ .LinkTitle }}</h2>
             {{ with .Params.description }}
