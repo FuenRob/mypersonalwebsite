@@ -1,4 +1,4 @@
-baseURL = 'https://fuenrob.github.io/'
-languageCode = 'es-es'
+baseURL = 'https://www.fuenrob.com/'
+languageCode = 'es-ES'
 title = 'Roberto Morais'
 theme = 'linkstree'

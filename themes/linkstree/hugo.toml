@@ -1,6 +1,6 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://www.fuenrob.com/'
 languageCode = 'es-ES'
-title = 'My New Hugo Site'
+title = 'Roberto Morais'
 
 [menus]
   [[menus.main]]
