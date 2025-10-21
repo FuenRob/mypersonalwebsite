@@ -268,6 +268,18 @@ header nav ul a.active {
 .link-item[data-platform*="twitch"]:hover .link-icon i {
     color: rgba(255, 255, 255, 0.9);
 }
+
+.link-item[data-platform*="discord"]:hover {
+    background: linear-gradient(135deg, #5865f2 0%, #4752c4 100%);
+    color: white;
+    border-color: #5865f2;
+}
+
+.link-item[data-platform*="discord"]:hover .link-description,
+.link-item[data-platform*="discord"]:hover .link-icon i {
+    color: rgba(255, 255, 255, 0.9);
+}
+
 h2.link-name {
     margin: 0 0 0.25rem 0;
     font-size: 1.55rem;
@@ -668,9 +680,6 @@ footer {
 }
 
 .term-link:hover {
-  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
-  color: white;
-  border-color: #0066cc;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,102,204,0.2);
 }
@@ -704,10 +713,6 @@ footer {
   letter-spacing: -0.03em;
   color: #111;
   font-weight: 700;
-  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .term-description {
@@ -1038,9 +1043,6 @@ body.dark-mode .term-link {
 }
 
 body.dark-mode .term-link:hover {
-  background: linear-gradient(135deg, #4da6ff 0%, #3399ff 100%);
-  color: white;
-  border-color: #4da6ff;
   box-shadow: 0 4px 8px rgba(77,166,255,0.3);
 }
 

@@ -29,6 +29,7 @@ title = 'My New Hugo Site'
     links = [
       { name='Mi canal de YouTube', url='https://www.youtube.com/@FuenRob', description='Tutoriales de programación y desarrollo de software', icon='fab fa-youtube', platform='YouTube' },
       { name='Mi código', url='https://github.com/FuenRob', description='Aquí puedes encontrar mis proyectos', icon='fab fa-github', platform='GitHub'},
+      { name='El servidor de Discord de la comunidad', url='https://discord.gg/rm7r6zFq', description='Únete a nuestra comunidad de desarrolladores', icon='fab fa-discord', platform='Discord' },
       { name='Mi carrera profesional', url='https://www.linkedin.com/in/robercmorais/', description='Aquí puedes ver toda mi experiencia profesional', icon='fab fa-linkedin', platform='LinkedIn' },
       { name='Sígueme en X', url='https://x.com/FuenRob', icon='fab fa-x-twitter', platform='X' },
       { name='Sígueme en Instagram', url='https://www.instagram.com/fuenrob/', icon='fab fa-instagram', platform='Instagram' },
