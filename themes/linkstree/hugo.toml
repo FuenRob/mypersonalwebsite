@@ -1,6 +1,6 @@
-baseURL = 'https://www.fuenrob.com/'
+baseURL = 'https://fuenrob.com/'
 languageCode = 'es-ES'
-title = 'Roberto Morais'
+title = 'Roberto Morais (fuenrob) | Desarrollador de Software'
 
 [menus]
   [[menus.main]]
@@ -14,8 +14,8 @@ title = 'Roberto Morais'
     weight = 20
 
 [params.Author]
-    name='Roberto Morais'
-    bio='Un desarrollador de software de Golang, PHP y JavaScript'
+    name='Roberto Morais (fuenrob)'
+    bio='Desarrollador de software especializado en Golang, PHP y JavaScript'
     image='/images/author/fuenrob.jpg'
     social = [
        { url='https://github.com/FuenRob', icon='fab fa-github', ariaLabel='Ir a GitHub' },

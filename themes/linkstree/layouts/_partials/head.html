@@ -1,16 +1,63 @@
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
-<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
-<meta name="description" content="Blog de desarrollo de software y tecnologia de Roberto Morais">
-<meta property="og:title" content='{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}' />
-<meta property="og:description" content='{{ if .IsHome }}{{ site.Params.Author.bio }}{{ else }}{{ .Summary }}{{ end }}' />
-<meta property="og:image" content="{{ site.BaseURL }}images/author/fuenrob.jpg" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{ $pageTitle := "" }}
+{{ if .IsHome }}
+  {{ $pageTitle = site.Title }}
+{{ else }}
+  {{ $pageTitle = printf "%s | Roberto Morais (fuenrob)" .Title }}
+{{ end }}
+<title>{{ $pageTitle }}</title>
+
+{{ $pageDesc := "" }}
+{{ if .IsHome }}
+  {{ $pageDesc = "Sitio web personal y blog de Roberto Morais (fuenrob), desarrollador de software especializado en Golang, PHP y JavaScript." }}
+{{ else }}
+  {{ if .Summary }}
+    {{ $pageDesc = .Summary | plainify }}
+  {{ else if .Description }}
+    {{ $pageDesc = .Description | plainify }}
+  {{ else }}
+    {{ $pageDesc = printf "%s - Artículo publicado por Roberto Morais (fuenrob)" .Title }}
+  {{ end }}
+{{ end }}
+<meta name="description" content="{{ $pageDesc }}">
+<meta name="author" content="Roberto Morais (fuenrob)">
+<meta name="keywords" content="Roberto Morais, fuenrob, FuenRob, desarrollador de software, Golang, Go, PHP, JavaScript, Hugo, arquitectura de software, blog de tecnología">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<link rel="canonical" href="{{ .Permalink }}">
+
+<!-- Open Graph / Facebook / LinkedIn -->
+<meta property="og:site_name" content="Roberto Morais (fuenrob)" />
+<meta property="og:title" content="{{ $pageTitle }}" />
+<meta property="og:description" content="{{ $pageDesc }}" />
 <meta property="og:url" content="{{ .Permalink }}" />
+<meta property="og:locale" content="es_ES" />
+{{ if or .IsHome (not .IsPage) }}
+<meta property="og:type" content="website" />
+{{ else }}
 <meta property="og:type" content="article" />
+{{ end }}
+
+{{ $ogImage := printf "%simages/author/fuenrob.jpg" site.BaseURL }}
+{{ with .Params.image }}
+  {{ if (hasPrefix . "http") }}
+    {{ $ogImage = . }}
+  {{ else }}
+    {{ $ogImage = . | absURL }}
+  {{ end }}
+{{ end }}
+<meta property="og:image" content="{{ $ogImage }}" />
+
+<!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content='{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}' />
-<meta name="twitter:description" content="{{ if .IsHome }}{{ site.Params.Author.bio }}{{ else }}{{ .Summary }}{{ end }}" />
-<meta name="twitter:image" content="{{ site.BaseURL }}images/author/fuenrob.jpg" />
 <meta name="twitter:site" content="@FuenRob" />
+<meta name="twitter:creator" content="@FuenRob" />
+<meta name="twitter:title" content="{{ $pageTitle }}" />
+<meta name="twitter:description" content="{{ $pageDesc }}" />
+<meta name="twitter:image" content="{{ $ogImage }}" />
+
+<!-- JSON-LD Schema Structured Data -->
+{{ partial "head/schema.html" . }}
+
 {{ partialCached "head/css.html" . }}
 {{ partialCached "head/js.html" . }}

@@ -3,7 +3,7 @@
         {{ $author := . }}
         <div class="author">
             {{ with $author.image }}
-            <img class="author-image" src="{{ . | relURL }}" alt="{{ $author.name }}" loading="lazy" />
+            <img class="author-image" src="{{ . | relURL }}" alt="{{ $author.name }}" width="128" height="128" loading="eager" decoding="async" />
             {{ end }}
             {{ with $author.name }}
             <h1 class="author-name">{{ . }}</h1>

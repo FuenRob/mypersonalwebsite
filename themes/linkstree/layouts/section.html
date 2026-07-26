@@ -1,7 +1,7 @@
 {{ define "main" }}
   <div class="section-header">
     <h1 class="section-title">{{ .Title }}</h1>
-    {{ with .Description }}<p class="section-subtitle">{{ . }}</p>{{ end }}
+    {{ if and .Description (not .Content) }}<p class="section-subtitle">{{ .Description }}</p>{{ end }}
   </div>
 
   {{ with .Content }}
