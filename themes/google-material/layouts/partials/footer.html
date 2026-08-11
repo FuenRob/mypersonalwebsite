@@ -1,0 +1,12 @@
+<footer class="g-footer">
+  <div class="g-footer-container">
+    <div class="g-footer-nav">
+      <a href="{{ site.Home.RelPermalink }}">Inicio</a>
+      <a href="{{ "/posts/" | relURL }}">Posts</a>
+      <a href="{{ "/politica-de-privacidad/" | relURL }}">Privacidad</a>
+      <a href="{{ "/condiciones-de-uso/" | relURL }}">Condiciones</a>
+      <a href="{{ "/aviso-legal/" | relURL }}">Aviso Legal</a>
+    </div>
+    <p>&copy; {{ now.Format "2006" }} {{ site.Params.Author.name | default site.Title }}. Diseñado con el sistema **Google Material Design**.</p>
+  </div>
+</footer>

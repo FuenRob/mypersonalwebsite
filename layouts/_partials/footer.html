@@ -1,6 +1,10 @@
-<p>Copyright {{ now.Year }}. Todos los derechos reservados.</p>
-<p class="footer-legal-links" style="margin-top: 0.5rem; font-size: 0.875rem;">
-  <a href="{{ "aviso-legal/" | relURL }}">Aviso Legal</a> &bull;
-  <a href="{{ "politica-de-privacidad/" | relURL }}">Política de Privacidad</a> &bull;
-  <a href="{{ "condiciones-de-uso/" | relURL }}">Condiciones de Uso</a>
-</p>
+<footer class="g-footer site-footer">
+  <div class="g-footer-container footer-container">
+    <p class="copyright-text">&copy; {{ now.Format "2006" }} {{ site.Params.Author.name | default site.Title }}. Todos los derechos reservados.</p>
+    <p class="footer-legal-links" style="margin-top: 0.5rem; font-size: 0.875rem;">
+      <a href="{{ "aviso-legal/" | relURL }}">Aviso Legal</a> &bull;
+      <a href="{{ "politica-de-privacidad/" | relURL }}">Política de Privacidad</a> &bull;
+      <a href="{{ "condiciones-de-uso/" | relURL }}">Condiciones de Uso</a>
+    </p>
+  </div>
+</footer>

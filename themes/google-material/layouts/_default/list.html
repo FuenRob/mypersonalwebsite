@@ -1,0 +1,31 @@
+{{ define "main" }}
+<div style="margin-bottom: 2rem;">
+  <div class="g-section-header">
+    <h1 class="g-section-title">{{ .Title }}</h1>
+  </div>
+
+  {{ with .Description }}
+    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">{{ . }}</p>
+  {{ end }}
+
+  <!-- Live Search Bar -->
+  <div class="g-search-box" style="margin: 0 0 2rem 0; max-width: 100%;">
+    <i class="fa-solid fa-magnifying-glass g-search-icon" aria-hidden="true"></i>
+    <input type="text" id="g-search-input" class="g-search-input" placeholder="Filtrar por título, palabra clave o tema..." aria-label="Filtrar artículos" />
+    <button id="g-search-clear" class="g-search-clear" aria-label="Limpiar filtro">&times;</button>
+  </div>
+</div>
+
+{{ with .Pages }}
+  <div class="g-grid">
+    {{ range . }}
+      {{ partial "card.html" . }}
+    {{ end }}
+  </div>
+{{ else }}
+  <div style="text-align: center; padding: 4rem 1rem; color: var(--text-secondary);">
+    <i class="fa-solid fa-folder-open" style="font-size: 3rem; color: var(--border-color); margin-bottom: 1rem;"></i>
+    <p>No se encontraron artículos en esta sección.</p>
+  </div>
+{{ end }}
+{{ end }}

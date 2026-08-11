@@ -1,0 +1,14 @@
+{{ define "main" }}
+<div style="margin-bottom: 2rem;">
+  <div class="g-section-header">
+    <h1 class="g-section-title">Etiqueta: {{ .Title }}</h1>
+  </div>
+  <p style="color: var(--text-secondary);">Artículos relacionados con la etiqueta <strong>{{ .Title }}</strong>.</p>
+</div>
+
+<div class="g-grid">
+  {{ range .Pages }}
+    {{ partial "card.html" . }}
+  {{ end }}
+</div>
+{{ end }}

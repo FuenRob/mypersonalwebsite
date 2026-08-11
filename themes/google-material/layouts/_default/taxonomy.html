@@ -1,0 +1,16 @@
+{{ define "main" }}
+<div style="margin-bottom: 2rem;">
+  <div class="g-section-header">
+    <h1 class="g-section-title">Etiquetas y Temas</h1>
+  </div>
+  <p style="color: var(--text-secondary);">Explora el contenido organizado por etiquetas y tecnologías.</p>
+</div>
+
+<div class="g-chip-group" style="justify-content: flex-start;">
+  {{ range .Pages }}
+    <a href="{{ .RelPermalink }}" class="g-chip" style="font-size: 1rem; padding: 0.6rem 1.2rem;">
+      <i class="fa-solid fa-tag" style="color: var(--g-blue);"></i> {{ .Title }} ({{ len .Pages }})
+    </a>
+  {{ end }}
+</div>
+{{ end }}

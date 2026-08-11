@@ -1,0 +1,30 @@
+name = 'Google Material'
+license = 'MIT'
+licenselink = 'https://github.com/FuenRob/mypersonalwebsite/blob/main/LICENSE'
+description = 'Un tema de Hugo inspirado en Google Material Design 3 y la estética de Google Developers'
+homepage = 'https://fuenrob.com/'
+
+[author]
+  name = 'Roberto Morais (fuenrob)'
+  homepage = 'https://fuenrob.com/'
+
+[menus]
+  [[menus.main]]
+    name = 'Inicio'
+    pageRef = '/'
+    weight = 10
+
+  [[menus.main]]
+    name = 'Artículos'
+    pageRef = '/posts'
+    weight = 20
+
+[params.Author]
+    name = 'Roberto Morais (fuenrob)'
+    bio = 'Desarrollador de software especializado en Golang, PHP y JavaScript'
+    image = '/images/author/fuenrob.jpg'
+
+[module]
+  [module.hugoVersion]
+    extended = false
+    min = '0.120.0'
