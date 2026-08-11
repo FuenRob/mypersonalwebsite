@@ -154,15 +154,17 @@ header nav ul a.active {
 }
 
 .link-item {
-    background: #ffffff;
-    border: #222222 1px solid;
-    border-radius: 10px;
-    padding: 1rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
-    width: 100%;
-    max-width: 880px; /* aumentado para acomodar icono grande */
-    text-align: left;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfbfb 100%);
+  border: 1px solid #222222;
+  border-radius: 12px;
+  padding: 1.1rem;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.04);
+  transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease, background-color 160ms ease;
+  width: 100%;
+  max-width: 880px;
+  text-align: left;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .link-item a {
@@ -379,18 +381,6 @@ footer {
   flex-direction: column;
   gap: 1rem;
   align-items: center;
-}
-
-/* Pulir las tarjetas: un poco más de espacio y una sombra más elegante */
-.link-item {
-  border-radius: 12px;
-  padding: 1.1rem;
-  transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease, background-color 160ms ease;
-  box-shadow: 0 6px 18px rgba(16,24,40,0.04);
-  background: linear-gradient(180deg, #ffffff 0%, #fbfbfb 100%);
-  overflow: hidden;
-  /* Aumentado el ancho máximo para que los listados de posts se vean más anchos en escritorio */
-  max-width: 880px;
 }
 
 /* Ajustar la altura máxima de las imágenes dentro de la tarjeta para mantener buenas proporciones */

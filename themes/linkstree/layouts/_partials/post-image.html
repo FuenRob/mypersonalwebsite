@@ -1,0 +1,20 @@
+{{ $p := .page }}
+{{ $class := .class | default "link-image-wrap" }}
+{{ with $p.Params.image }}
+  {{ $img := . }}
+  {{ with $p.Resources.GetMatch $img }}
+    <div class="{{ $class }}">
+      <img class="link-image" src="{{ .RelPermalink }}" loading="lazy" alt="{{ with $p.Params.imageAlt }}{{ . }}{{ else }}{{ $p.Title }}{{ end }}">
+    </div>
+  {{ else }}
+    {{ if (hasPrefix $img "http") }}
+      <div class="{{ $class }}">
+        <img class="link-image" src="{{ $img }}" loading="lazy" alt="{{ with $p.Params.imageAlt }}{{ . }}{{ else }}{{ $p.Title }}{{ end }}">
+      </div>
+    {{ else }}
+      <div class="{{ $class }}">
+        <img class="link-image" src="{{ $img | relURL }}" loading="lazy" alt="{{ with $p.Params.imageAlt }}{{ . }}{{ else }}{{ $p.Title }}{{ end }}">
+      </div>
+    {{ end }}
+  {{ end }}
+{{ end }}

@@ -15,24 +15,7 @@
         <div class="link-item">
           <a href="{{ $p.RelPermalink }}" aria-label="Ver el post {{ $p.Title }}">
             <div class="link-inner link-inner-vertical">
-              {{ with $p.Params.image }}
-                {{ $img := . }}
-                {{ with $p.Resources.GetMatch $img }}
-                  <div class="link-image-wrap">
-                    <img class="link-image" src="{{ .RelPermalink }}" loading="lazy" alt="{{ with $p.Params.imageAlt }}{{ . }}{{ else }}{{ $p.Title }}{{ end }}">
-                  </div>
-                {{ else }}
-                  {{ if (hasPrefix $img "http") }}
-                    <div class="link-image-wrap">
-                      <img class="link-image" src="{{ $img }}" loading="lazy" alt="{{ with $p.Params.imageAlt }}{{ . }}{{ else }}{{ $p.Title }}{{ end }}">
-                    </div>
-                  {{ else }}
-                    <div class="link-image-wrap">
-                      <img class="link-image" src="{{ $img | relURL }}" loading="lazy" alt="{{ with $p.Params.imageAlt }}{{ . }}{{ else }}{{ $p.Title }}{{ end }}">
-                    </div>
-                  {{ end }}
-                {{ end }}
-              {{ end }}
+              {{ partial "post-image.html" (dict "page" $p) }}
 
               <div class="link-text">
                 {{ if $p.LinkTitle }}
