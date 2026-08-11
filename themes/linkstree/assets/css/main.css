@@ -332,8 +332,19 @@ h3.link-name {
 
 footer {
     border-top: 1px solid #222;
-    margin-top: 1rem;
+    margin-top: 2rem;
+    padding: 1.5rem 1rem;
     text-align: center;
+}
+
+.footer-legal-links {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.footer-legal-links a {
+    color: inherit;
+    text-decoration: underline;
 }
 
 /* Section styles: elegante y en sintonía con la home */

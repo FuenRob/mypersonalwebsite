@@ -1,0 +1,54 @@
+{{ define "main" }}
+<article class="g-article-container">
+  <header class="g-article-header">
+    <h1 class="g-article-title">{{ .Title }}</h1>
+
+    <div class="g-article-meta-bar">
+      <div class="g-meta-item">
+        <i class="fa-regular fa-user" aria-hidden="true" style="color: var(--g-blue);"></i>
+        <span>{{ site.Params.Author.name | default site.Title }}</span>
+      </div>
+
+      <div class="g-meta-item">
+        <i class="fa-regular fa-calendar" aria-hidden="true" style="color: var(--g-red);"></i>
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02/01/2006" }}</time>
+      </div>
+
+      {{ if .ReadingTime }}
+      <div class="g-meta-item">
+        <i class="fa-regular fa-clock" aria-hidden="true" style="color: var(--g-green);"></i>
+        <span>{{ .ReadingTime }} min de lectura</span>
+      </div>
+      {{ end }}
+    </div>
+
+    {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+  </header>
+
+  {{ with .Params.image }}
+  <div style="margin-bottom: 2rem; border-radius: var(--radius-md); overflow: hidden; max-height: 450px; border: 1px solid var(--border-color);">
+    <img src="{{ . }}" alt="{{ $.Title }}" style="width: 100%; height: 100%; object-fit: cover;" />
+  </div>
+  {{ end }}
+
+  {{ if .TableOfContents }}
+    <div class="g-toc-box">
+      <div class="g-toc-title">
+        <i class="fa-solid fa-list-ul" style="color: var(--g-blue);"></i>
+        <span>Índice del artículo</span>
+      </div>
+      {{ .TableOfContents }}
+    </div>
+  {{ end }}
+
+  <div class="g-article-content">
+    {{ .Content }}
+  </div>
+
+  <footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center;">
+    <a href="{{ "/posts/" | relURL }}" class="g-chip" style="font-weight: 600;">
+      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Volver a artículos
+    </a>
+  </footer>
+</article>
+{{ end }}

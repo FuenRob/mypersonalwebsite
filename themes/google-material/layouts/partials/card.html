@@ -1,0 +1,28 @@
+{{ $p := . }}
+<article class="g-card">
+  <a href="{{ $p.RelPermalink }}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+    {{ partial "post-image.html" (dict "page" $p) }}
+    <div class="g-card-body">
+      <div class="g-card-meta">
+        <span class="g-card-date">
+          <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+          <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "02/01/2006" }}</time>
+        </span>
+        {{ if $p.ReadingTime }}
+          <span>•</span>
+          <span><i class="fa-regular fa-clock" aria-hidden="true"></i> {{ $p.ReadingTime }} min de lectura</span>
+        {{ end }}
+      </div>
+
+      <h3 class="g-card-title">{{ $p.Title }}</h3>
+      {{ with $p.Summary }}
+        <p class="g-card-desc">{{ . | plainify }}</p>
+      {{ end }}
+
+      <div class="g-card-footer">
+        <span>Leer artículo completo</span>
+        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+      </div>
+    </div>
+  </a>
+</article>

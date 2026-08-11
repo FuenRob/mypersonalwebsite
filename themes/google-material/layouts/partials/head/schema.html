@@ -1,0 +1,30 @@
+{{ if .IsHome }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ site.Title }}",
+  "url": "{{ site.BaseURL }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ site.Params.Author.name | default site.Title }}"
+  }
+}
+</script>
+{{ else if .IsPage }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ .Title }}",
+  "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
+  "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ site.Params.Author.name | default site.Title }}"
+  },
+  "url": "{{ .Permalink }}",
+  "description": "{{ .Summary | plainify }}"
+}
+</script>
+{{ end }}

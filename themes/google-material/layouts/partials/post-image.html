@@ -1,0 +1,17 @@
+{{ $page := .page }}
+{{ $class := .class | default "g-card-thumb-wrap" }}
+{{ $imgSrc := "" }}
+
+{{ with $page.Params.image }}
+  {{ $imgSrc = . }}
+{{ end }}
+
+<div class="{{ $class }}">
+  {{ if $imgSrc }}
+    <img class="g-card-thumb" src="{{ $imgSrc }}" alt="{{ $page.Title }}" loading="lazy" decoding="async" />
+  {{ else }}
+    <div class="g-card-thumb" style="background: linear-gradient(135deg, var(--g-blue-container), var(--surface-variant)); display: flex; align-items: center; justify-content: center;">
+      <i class="fa-solid fa-code" style="font-size: 2.5rem; color: var(--g-blue); opacity: 0.7;"></i>
+    </div>
+  {{ end }}
+</div>

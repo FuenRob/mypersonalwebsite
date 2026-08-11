@@ -1,0 +1,27 @@
+<div class="g-accent-line"></div>
+<header class="g-header">
+  <div class="g-header-container">
+    <a href="{{ site.Home.RelPermalink }}" class="g-brand" aria-label="Página de Inicio">
+      {{ with site.Params.Author.image }}
+        <img src="{{ . | relURL }}" alt="{{ site.Params.Author.name }}" class="g-brand-logo" width="36" height="36" />
+      {{ end }}
+      <span class="g-brand-title">{{ site.Title }}</span>
+      <span class="g-brand-badge">Dev</span>
+    </a>
+
+    <nav class="g-nav">
+      {{ $currentPage := . }}
+      {{ range site.Menus.main }}
+        <a href="{{ .URL | relURL }}" class="g-nav-link {{ if $currentPage.IsMenuCurrent "main" . }}active{{ else if $currentPage.HasMenuCurrent "main" . }}active{{ end }}">
+          {{ .Name }}
+        </a>
+      {{ end }}
+    </nav>
+
+    <div class="g-controls">
+      <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Cambiar tema">
+        🌙
+      </button>
+    </div>
+  </div>
+</header>

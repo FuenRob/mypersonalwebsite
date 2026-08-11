@@ -1,0 +1,11 @@
+{{ $taxonomy := .taxonomy }}
+{{ $page := .page }}
+{{ with $page.GetTerms $taxonomy }}
+  <div class="g-chip-group" style="margin-top: 0.5rem; justify-content: flex-start;">
+    {{ range . }}
+      <a href="{{ .RelPermalink }}" class="g-chip" style="font-size: 0.78rem; padding: 0.25rem 0.75rem;">
+        <i class="fa-solid fa-tag" style="font-size: 0.7rem; color: var(--g-blue);"></i> {{ .LinkTitle }}
+      </a>
+    {{ end }}
+  </div>
+{{ end }}
