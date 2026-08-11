@@ -45,4 +45,106 @@
         </div>
         {{ end }}
     {{ end }}
+
+    {{ $posts := where site.RegularPages "Section" "posts" }}
+    {{ $recent := first 3 $posts }}
+    {{ with $recent }}
+    <div class="recent-posts-section">
+        <h2 class="recent-posts-title">Últimos artículos</h2>
+        <div class="recent-posts-container">
+            {{ range $index, $p := . }}
+                {{ if eq $index 0 }}
+                    <div class="link-item recent-post-featured">
+                        <a href="{{ $p.RelPermalink }}" aria-label="Ver el post {{ $p.Title }}">
+                            <div class="link-inner link-inner-vertical">
+                                {{ with $p.Params.image }}
+                                    {{ $img := . }}
+                                    {{ with $p.Resources.GetMatch $img }}
+                                        <div class="link-image-wrap">
+                                            <img class="link-image" src="{{ .RelPermalink }}" loading="lazy" alt="{{ with $p.Params.imageAlt }}{{ . }}{{ else }}{{ $p.Title }}{{ end }}">
+                                        </div>
+                                    {{ else }}
+                                        {{ if (hasPrefix $img "http") }}
+                                            <div class="link-image-wrap">
+                                                <img class="link-image" src="{{ $img }}" loading="lazy" alt="{{ with $p.Params.imageAlt }}{{ . }}{{ else }}{{ $p.Title }}{{ end }}">
+                                            </div>
+                                        {{ else }}
+                                            <div class="link-image-wrap">
+                                                <img class="link-image" src="{{ $img | relURL }}" loading="lazy" alt="{{ with $p.Params.imageAlt }}{{ . }}{{ else }}{{ $p.Title }}{{ end }}">
+                                            </div>
+                                        {{ end }}
+                                    {{ end }}
+                                {{ end }}
+
+                                <div class="link-text">
+                                    <div class="recent-post-header">
+                                        {{ if $p.LinkTitle }}
+                                            <h3 class="link-name">{{ $p.LinkTitle }}</h3>
+                                        {{ else }}
+                                            <h3 class="link-name">{{ $p.Title }}</h3>
+                                        {{ end }}
+                                        {{ with $p.Date }}
+                                            <time class="recent-post-date" datetime="{{ .Format "2006-01-02" }}">{{ .Format "02/01/2006" }}</time>
+                                        {{ end }}
+                                    </div>
+                                    {{ with $p.Summary }}<p class="link-description">{{ . }}</p>{{ end }}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {{ end }}
+            {{ end }}
+
+            {{ if gt (len .) 1 }}
+            <div class="recent-posts-grid">
+                {{ range $index, $p := . }}
+                    {{ if gt $index 0 }}
+                        <div class="link-item recent-post-subitem">
+                            <a href="{{ $p.RelPermalink }}" aria-label="Ver el post {{ $p.Title }}">
+                                <div class="link-inner link-inner-vertical">
+                                    {{ with $p.Params.image }}
+                                        {{ $img := . }}
+                                        {{ with $p.Resources.GetMatch $img }}
+                                            <div class="link-image-wrap link-image-wrap-small">
+                                                <img class="link-image" src="{{ .RelPermalink }}" loading="lazy" alt="{{ with $p.Params.imageAlt }}{{ . }}{{ else }}{{ $p.Title }}{{ end }}">
+                                            </div>
+                                        {{ else }}
+                                            {{ if (hasPrefix $img "http") }}
+                                                <div class="link-image-wrap link-image-wrap-small">
+                                                    <img class="link-image" src="{{ $img }}" loading="lazy" alt="{{ with $p.Params.imageAlt }}{{ . }}{{ else }}{{ $p.Title }}{{ end }}">
+                                                </div>
+                                            {{ else }}
+                                                <div class="link-image-wrap link-image-wrap-small">
+                                                    <img class="link-image" src="{{ $img | relURL }}" loading="lazy" alt="{{ with $p.Params.imageAlt }}{{ . }}{{ else }}{{ $p.Title }}{{ end }}">
+                                                </div>
+                                            {{ end }}
+                                        {{ end }}
+                                    {{ end }}
+
+                                    <div class="link-text">
+                                        <div class="recent-post-header">
+                                            {{ if $p.LinkTitle }}
+                                                <h3 class="link-name link-name-small">{{ $p.LinkTitle }}</h3>
+                                            {{ else }}
+                                                <h3 class="link-name link-name-small">{{ $p.Title }}</h3>
+                                            {{ end }}
+                                            {{ with $p.Date }}
+                                                <time class="recent-post-date" datetime="{{ .Format "2006-01-02" }}">{{ .Format "02/01/2006" }}</time>
+                                            {{ end }}
+                                        </div>
+                                        {{ with $p.Summary }}<p class="link-description link-description-small">{{ . }}</p>{{ end }}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {{ end }}
+                {{ end }}
+            </div>
+            {{ end }}
+        </div>
+        <div class="recent-posts-more">
+            <a href="{{ "/posts/" | relURL }}" class="see-more-button">Ver todos los artículos →</a>
+        </div>
+    </div>
+    {{ end }}
 {{ end }}
