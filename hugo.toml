@@ -4,3 +4,11 @@ defaultContentLanguage = 'es'
 title = 'Roberto Morais (fuenrob) | Desarrollador de Software'
 theme = 'linkstree'
 enableRobotsTXT = true
+
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    lineNos = false
+    style = 'onedark'
+    tabWidth = 4

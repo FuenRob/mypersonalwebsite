@@ -663,29 +663,130 @@ footer {
   color: #555;
 }
 
-.page-content code {
-  background: #f5f5f5;
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  font-size: 0.9em;
-  font-family: 'Courier New', monospace;
-  color: #d63384;
+.page-content code:not(pre code) {
+  background: #edf2f7;
+  padding: 0.2rem 0.45rem;
+  border-radius: 5px;
+  font-size: 0.88em;
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  color: #c7254e;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  word-break: break-word;
+}
+
+/* Code Blocks Container */
+.page-content .highlight {
+  position: relative;
+  margin: 1.75rem 0;
+  border-radius: 10px;
+  background-color: #282c34;
+  border: 1px solid #3e4451;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
 }
 
 .page-content pre {
-  background: #f5f5f5;
-  padding: 1.25rem;
-  border-radius: 8px;
+  margin: 0;
+  padding: 1.25rem 1.4rem;
   overflow-x: auto;
-  margin: 1.5rem 0;
-  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  tab-size: 4;
+  -moz-tab-size: 4;
+  background-color: #282c34 !important;
+  color: #abb2bf;
+  border: 1px solid #3e4451;
+}
+
+.page-content .highlight pre {
+  border: none;
+  border-radius: 0;
+  margin: 0;
 }
 
 .page-content pre code {
-  background: none;
-  padding: 0;
-  color: #333;
-  font-size: 0.95rem;
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+}
+
+/* Code block header with language badge and copy button */
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 0.9rem;
+  background: #21252b;
+  border-bottom: 1px solid #333842;
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+  color: #828997;
+  user-select: none;
+}
+
+.code-lang {
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #98c379;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.copy-code-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #abb2bf;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 160ms ease;
+  font-family: inherit;
+}
+
+.copy-code-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.copy-code-btn.copied {
+  background: rgba(152, 195, 121, 0.2);
+  color: #98c379;
+  border-color: #98c379;
+}
+
+/* Custom scrollbar for pre blocks */
+.page-content pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+.page-content pre::-webkit-scrollbar-track {
+  background: #21252b;
+}
+
+.page-content pre::-webkit-scrollbar-thumb {
+  background: #4b5263;
+  border-radius: 4px;
+}
+
+.page-content pre::-webkit-scrollbar-thumb:hover {
+  background: #5c6370;
 }
 
 .page-content ul,
@@ -1119,18 +1220,24 @@ body.dark-mode .page-content blockquote {
   color: #bbb;
 }
 
-body.dark-mode .page-content code {
-  background: #2a2a2a;
-  color: #ff6b9d;
+body.dark-mode .page-content code:not(pre code) {
+  background: #282c34;
+  color: #ff7b72;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .page-content .highlight {
+  border-color: #3e4451;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
 }
 
 body.dark-mode .page-content pre {
-  background: #2a2a2a;
-  border-color: #444;
+  background-color: #282c34 !important;
+  border-color: #3e4451;
 }
 
 body.dark-mode .page-content pre code {
-  color: #d0d0d0;
+  color: inherit;
 }
 
 body.dark-mode .page-content hr {

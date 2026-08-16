@@ -33,6 +33,73 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
+
+  // Enhance code blocks with header (language + copy button)
+  const codeBlocks = document.querySelectorAll('.page-content pre');
+
+  codeBlocks.forEach(function(pre) {
+    const parent = pre.parentElement;
+    const isHighlight = parent && parent.classList.contains('highlight');
+    const container = isHighlight ? parent : pre;
+
+    if (container.querySelector('.code-header')) {
+      return;
+    }
+
+    const codeEl = pre.querySelector('code');
+    let lang = '';
+    if (codeEl) {
+      if (codeEl.dataset.lang) {
+        lang = codeEl.dataset.lang;
+      } else {
+        const match = codeEl.className.match(/language-([a-zA-Z0-9_-]+)/);
+        if (match) {
+          lang = match[1];
+        }
+      }
+    }
+
+    const header = document.createElement('div');
+    header.className = 'code-header';
+
+    const langSpan = document.createElement('span');
+    langSpan.className = 'code-lang';
+    langSpan.innerHTML = '<i class="fa-solid fa-code"></i> ' + (lang ? lang : 'code');
+
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'copy-code-btn';
+    copyBtn.setAttribute('type', 'button');
+    copyBtn.setAttribute('aria-label', 'Copiar código al portapapeles');
+    copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copiar';
+
+    copyBtn.addEventListener('click', function() {
+      const textToCopy = (codeEl || pre).innerText;
+      navigator.clipboard.writeText(textToCopy).then(function() {
+        copyBtn.classList.add('copied');
+        copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> ¡Copiado!';
+        setTimeout(function() {
+          copyBtn.classList.remove('copied');
+          copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copiar';
+        }, 2000);
+      }).catch(function(err) {
+        console.error('Error al copiar:', err);
+      });
+    });
+
+    header.appendChild(langSpan);
+    header.appendChild(copyBtn);
+
+    if (isHighlight) {
+      parent.insertBefore(header, pre);
+    } else {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'highlight';
+      pre.parentNode.insertBefore(wrapper, pre);
+      wrapper.appendChild(header);
+      wrapper.appendChild(pre);
+    }
+  });
 });
+
 
 
