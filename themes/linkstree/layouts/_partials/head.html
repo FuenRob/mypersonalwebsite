@@ -1,5 +1,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+if (location.hostname === 'www.fuenrob.com') {
+  location.replace(location.href.replace('//www.', '//'));
+}
+</script>
 {{ $pageTitle := "" }}
 {{ if .IsHome }}
   {{ $pageTitle = site.Title }}
