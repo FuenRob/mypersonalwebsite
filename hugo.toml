@@ -1,9 +1,9 @@
 baseURL = 'https://fuenrob.com/'
-languageCode = 'es-ES'
-defaultContentLanguage = 'es'
-title = 'Roberto Morais (fuenrob) | Desarrollador de Software'
 theme = 'linkstree'
 enableRobotsTXT = true
+
+defaultContentLanguage = 'es'
+defaultContentLanguageInSubdir = false
 
 [markup]
   [markup.highlight]
@@ -12,3 +12,92 @@ enableRobotsTXT = true
     lineNos = false
     style = 'onedark'
     tabWidth = 4
+
+[languages]
+  [languages.es]
+    locale = 'es-ES'
+    label = 'Español'
+    contentDir = 'content/es'
+    weight = 1
+    title = 'Roberto Morais (fuenrob) | Desarrollador de Software'
+
+    [languages.es.params]
+      metaDescription = 'Sitio web personal y blog de Roberto Morais (fuenrob), desarrollador de software especializado en Golang, PHP y JavaScript.'
+      metaKeywords = 'Roberto Morais, fuenrob, FuenRob, desarrollador de software, Golang, Go, PHP, JavaScript, Hugo, arquitectura de software, blog de tecnología'
+
+    [languages.es.params.Author]
+      name = 'Roberto Morais (fuenrob)'
+      bio = 'Desarrollador de software especializado en Golang, PHP y JavaScript'
+      image = '/images/author/fuenrob.jpg'
+      social = [
+        { url = 'https://github.com/FuenRob', icon = 'fab fa-github', ariaLabel = 'Ir a GitHub' },
+        { url = 'https://www.linkedin.com/in/robercmorais/', icon = 'fab fa-linkedin', ariaLabel = 'Ir a LinkedIn' },
+        { url = 'https://discord.gg/rm7r6zFq', icon = 'fab fa-discord', ariaLabel = 'Ir a Discord' },
+        { url = 'https://x.com/FuenRob', icon = 'fab fa-x-twitter', ariaLabel = 'Ir a X' },
+        { url = 'https://www.instagram.com/fuenrob/', icon = 'fab fa-instagram', ariaLabel = 'Ir a Instagram' },
+        { url = 'https://www.tiktok.com/@fuenrob', icon = 'fab fa-tiktok', ariaLabel = 'Ir a TikTok' },
+        { url = 'https://www.youtube.com/@FuenRob', icon = 'fab fa-youtube', ariaLabel = 'Ir a YouTube' }
+      ]
+      links = [
+        { name = 'Mi canal de YouTube', url = 'https://www.youtube.com/@FuenRob', description = 'Tutoriales de programación y desarrollo de software', icon = 'fab fa-youtube', platform = 'YouTube' },
+        { name = 'Mi código', url = 'https://github.com/FuenRob', description = 'Aquí puedes encontrar mis proyectos', icon = 'fab fa-github', platform = 'GitHub' },
+        { name = 'El servidor de Discord de la comunidad', url = 'https://discord.gg/rm7r6zFq', description = 'Únete a nuestra comunidad de desarrolladores', icon = 'fab fa-discord', platform = 'Discord' },
+        { name = 'Mi carrera profesional', url = 'https://www.linkedin.com/in/robercmorais/', description = 'Aquí puedes ver toda mi experiencia profesional', icon = 'fab fa-linkedin', platform = 'LinkedIn' },
+        { name = 'Sígueme en X', url = 'https://x.com/FuenRob', icon = 'fab fa-x-twitter', platform = 'X' },
+        { name = 'Sígueme en Instagram', url = 'https://www.instagram.com/fuenrob/', icon = 'fab fa-instagram', platform = 'Instagram' },
+        { name = 'Sígueme en TikTok', url = 'https://www.tiktok.com/@fuenrob', icon = 'fab fa-tiktok', platform = 'TikTok' }
+      ]
+
+    [[languages.es.menus.main]]
+      name = 'Inicio'
+      pageRef = '/'
+      weight = 10
+
+    [[languages.es.menus.main]]
+      name = 'Post'
+      pageRef = '/posts'
+      weight = 20
+
+  [languages.en]
+    locale = 'en-US'
+    label = 'English'
+    contentDir = 'content/en'
+    weight = 2
+    title = 'Roberto Morais (fuenrob) | Software Developer'
+
+    [languages.en.params]
+      metaDescription = 'Personal website and blog of Roberto Morais (fuenrob), a software developer specialized in Golang, PHP and JavaScript.'
+      metaKeywords = 'Roberto Morais, fuenrob, FuenRob, software developer, Golang, Go, PHP, JavaScript, Hugo, software architecture, tech blog'
+
+    [languages.en.params.Author]
+      name = 'Roberto Morais (fuenrob)'
+      bio = 'Software developer specialized in Golang, PHP and JavaScript'
+      image = '/images/author/fuenrob.jpg'
+      social = [
+        { url = 'https://github.com/FuenRob', icon = 'fab fa-github', ariaLabel = 'Go to GitHub' },
+        { url = 'https://www.linkedin.com/in/robercmorais/', icon = 'fab fa-linkedin', ariaLabel = 'Go to LinkedIn' },
+        { url = 'https://discord.gg/rm7r6zFq', icon = 'fab fa-discord', ariaLabel = 'Go to Discord' },
+        { url = 'https://x.com/FuenRob', icon = 'fab fa-x-twitter', ariaLabel = 'Go to X' },
+        { url = 'https://www.instagram.com/fuenrob/', icon = 'fab fa-instagram', ariaLabel = 'Go to Instagram' },
+        { url = 'https://www.tiktok.com/@fuenrob', icon = 'fab fa-tiktok', ariaLabel = 'Go to TikTok' },
+        { url = 'https://www.youtube.com/@FuenRob', icon = 'fab fa-youtube', ariaLabel = 'Go to YouTube' }
+      ]
+      links = [
+        { name = 'My YouTube channel', url = 'https://www.youtube.com/@FuenRob', description = 'Programming and software development tutorials', icon = 'fab fa-youtube', platform = 'YouTube' },
+        { name = 'My code', url = 'https://github.com/FuenRob', description = 'Here you can find my projects', icon = 'fab fa-github', platform = 'GitHub' },
+        { name = 'The community Discord server', url = 'https://discord.gg/rm7r6zFq', description = 'Join our developer community', icon = 'fab fa-discord', platform = 'Discord' },
+        { name = 'My professional career', url = 'https://www.linkedin.com/in/robercmorais/', description = 'Here you can see all my professional experience', icon = 'fab fa-linkedin', platform = 'LinkedIn' },
+        { name = 'Follow me on X', url = 'https://x.com/FuenRob', icon = 'fab fa-x-twitter', platform = 'X' },
+        { name = 'Follow me on Instagram', url = 'https://www.instagram.com/fuenrob/', icon = 'fab fa-instagram', platform = 'Instagram' },
+        { name = 'Follow me on TikTok', url = 'https://www.tiktok.com/@fuenrob', icon = 'fab fa-tiktok', platform = 'TikTok' }
+      ]
+
+    [[languages.en.menus.main]]
+      name = 'Home'
+      pageRef = '/'
+      weight = 10
+
+    [[languages.en.menus.main]]
+      name = 'Posts'
+      pageRef = '/posts'
+      weight = 20

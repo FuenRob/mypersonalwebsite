@@ -1,0 +1,34 @@
+{{ define "main" }}
+  <div class="section-header">
+    <h1 class="section-title">{{ .Title }}</h1>
+    {{ if and .Description (not .Content) }}<p class="section-subtitle">{{ .Description }}</p>{{ end }}
+  </div>
+
+  {{ with .Content }}
+    <div class="section-intro">{{ . }}</div>
+  {{ end }}
+
+  {{ with .Pages }}
+    <div class="links section-links">
+      {{ range . }}
+        {{ $p := . }}
+        <div class="link-item">
+          <a href="{{ $p.RelPermalink }}" aria-label="{{ i18n "readPost" }} {{ $p.Title }}">
+            <div class="link-inner link-inner-vertical">
+              {{ partial "post-image.html" (dict "page" $p) }}
+
+              <div class="link-text">
+                {{ if $p.LinkTitle }}
+                  <h2 class="link-name">{{ $p.LinkTitle }}</h2>
+                {{ else }}
+                  <h2 class="link-name">{{ $p.Title }}</h2>
+                {{ end }}
+                {{ with $p.Summary }}<p class="link-description">{{ . }}</p>{{ end }}
+              </div>
+            </div>
+          </a>
+        </div>
+      {{ end }}
+    </div>
+  {{ end }}
+{{ end }}

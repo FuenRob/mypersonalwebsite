@@ -92,7 +92,7 @@ El archivo de configuración principal es `hugo.toml`. Aquí puedes modificar:
 
 - `baseURL`: La URL base del sitio
 - `title`: El título del sitio
-- `languageCode`: El código de idioma
+- `locale`: La etiqueta de idioma (p. ej. `es-ES`, `en-US`)
 - `theme`: El tema a utilizar
 - Y otras opciones según las necesidades
 

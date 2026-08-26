@@ -1,0 +1,44 @@
+[home]
+other = "Inicio"
+
+[copyright]
+other = "Todos los derechos reservados."
+
+[recentPosts]
+other = "Últimos posts"
+
+[seeAllPosts]
+other = "Ver todos los posts"
+
+[readPost]
+other = "Ver el post"
+
+[avisoLegal]
+other = "Aviso Legal"
+
+[politicaPrivacidad]
+other = "Política de Privacidad"
+
+[condicionesUso]
+other = "Condiciones de Uso"
+
+[postByAuthor]
+other = "Artículo publicado por"
+
+[jobTitle]
+other = "Desarrollador de Software"
+
+[dateFormat]
+other = "02/01/2006"
+
+[langToggle]
+other = "Cambiar idioma"
+
+[avisoLegalSlug]
+other = "aviso-legal"
+
+[politicaPrivacidadSlug]
+other = "politica-de-privacidad"
+
+[condicionesUsoSlug]
+other = "condiciones-de-uso"

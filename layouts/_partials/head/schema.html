@@ -2,7 +2,7 @@
 {{ $siteUrl := site.BaseURL }}
 {{ $authorName := "Roberto Morais" }}
 {{ $authorAlias := "fuenrob" }}
-{{ $authorBio := "Desarrollador de software especializado en Golang, PHP y JavaScript" }}
+{{ $authorBio := site.Params.Author.bio }}
 {{ $authorImg := printf "%simages/author/fuenrob.jpg" $siteUrl }}
 
 <!-- Person Schema (Global) -->
@@ -16,7 +16,7 @@
   "url": "{{ $siteUrl }}",
   "image": "{{ $authorImg }}",
   "description": "{{ $authorBio }}",
-  "jobTitle": "Desarrollador de Software",
+  "jobTitle": "{{ i18n "jobTitle" }}",
   "knowsAbout": ["Go", "Golang", "PHP", "JavaScript", "Software Architecture", "Hugo", "Model Context Protocol"],
   "sameAs": [
     "https://github.com/FuenRob",
@@ -37,9 +37,9 @@
   "@type": "WebSite",
   "@id": "{{ $siteUrl }}#website",
   "url": "{{ $siteUrl }}",
-  "name": "Roberto Morais (fuenrob) | Sitio Web Personal",
+  "name": "{{ site.Title }}",
   "alternateName": "fuenrob",
-  "description": "Sitio web personal y blog de Roberto Morais (fuenrob), desarrollador de software de Golang, PHP y JavaScript.",
+  "description": "{{ site.Params.metaDescription }}",
   "publisher": {
     "@id": "{{ $siteUrl }}#person"
   },
@@ -94,7 +94,7 @@
     {
       "@type": "ListItem",
       "position": 1,
-      "name": "Inicio",
+      "name": "{{ i18n "home" }}",
       "item": "{{ $siteUrl }}"
     },
     {

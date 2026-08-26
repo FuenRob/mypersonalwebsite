@@ -1,0 +1,116 @@
+{{ define "main" }}
+    {{ with .Site.Params.Author }}
+        {{ $author := . }}
+        <div class="author">
+            {{ with $author.image }}
+            <img class="author-image" src="{{ . | relURL }}" alt="{{ $author.name }}" width="128" height="128" loading="eager" decoding="async" />
+            {{ end }}
+            {{ with $author.name }}
+            <h1 class="author-name">{{ . }}</h1>
+            {{ end }}
+            {{ with $author.bio }}
+            <h2 class="author-bio">{{ . }}</h2>
+            {{ end }}
+            {{ with $author.social }}
+            <ul class="author-social-links">
+                {{ range . }}
+                <li>
+                    <a href="{{ .url | safeURL }}" target="_blank" rel="noopener" aria-label="{{ .ariaLabel }}">
+                        {{ if .icon }}<i class="{{ .icon }}"></i> {{ end }}
+                    </a>
+                </li>
+                {{ end }}
+            </ul>
+            {{ end }}
+        </div>
+        {{ with $author.links }}
+        <div class="links">
+            {{ range . }}
+            <div class="link-item" data-platform="{{ .platform | lower | replaceRE `[^a-z0-9]+` `-` }}">
+                <a href="{{ .url | safeURL }}" target="_blank" rel="noopener" aria-label="{{ .name }}">
+                    <div class="link-inner">
+                        {{ with .icon }}
+                        <div class="link-icon">
+                            <i class="{{ . }}" aria-hidden="true"></i>
+                        </div>
+                        {{ end }}
+                        <div class="link-text">
+                            {{ with .name }}<h3 class="link-name">{{ . }}</h3>{{ end }}
+                            {{ with .description }}<p class="link-description">{{ . }}</p>{{ end }}
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {{ end }}
+        </div>
+        {{ end }}
+    {{ end }}
+
+    {{ $posts := where site.RegularPages "Section" "posts" }}
+    {{ $recent := first 3 $posts }}
+    {{ with $recent }}
+    <div class="recent-posts-section">
+        <h2 class="recent-posts-title">{{ i18n "recentPosts" }}</h2>
+        <div class="recent-posts-container">
+            {{ range $index, $p := . }}
+                {{ if eq $index 0 }}
+                    <div class="link-item recent-post-featured">
+                        <a href="{{ $p.RelPermalink }}" aria-label="{{ i18n "readPost" }} {{ $p.Title }}">
+                            <div class="link-inner link-inner-vertical">
+                                {{ partial "post-image.html" (dict "page" $p) }}
+
+                                <div class="link-text">
+                                    <div class="recent-post-header">
+                                        {{ if $p.LinkTitle }}
+                                            <h3 class="link-name">{{ $p.LinkTitle }}</h3>
+                                        {{ else }}
+                                            <h3 class="link-name">{{ $p.Title }}</h3>
+                                        {{ end }}
+                                        {{ with $p.Date }}
+                                            <time class="recent-post-date" datetime="{{ .Format "2006-01-02" }}">{{ .Format (i18n "dateFormat") }}</time>
+                                        {{ end }}
+                                    </div>
+                                    {{ with $p.Summary }}<p class="link-description">{{ . }}</p>{{ end }}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {{ end }}
+            {{ end }}
+
+            {{ if gt (len .) 1 }}
+            <div class="recent-posts-grid">
+                {{ range $index, $p := . }}
+                    {{ if gt $index 0 }}
+                        <div class="link-item recent-post-subitem">
+                            <a href="{{ $p.RelPermalink }}" aria-label="{{ i18n "readPost" }} {{ $p.Title }}">
+                                <div class="link-inner link-inner-vertical">
+                                    {{ partial "post-image.html" (dict "page" $p "class" "link-image-wrap link-image-wrap-small") }}
+
+                                    <div class="link-text">
+                                        <div class="recent-post-header">
+                                            {{ if $p.LinkTitle }}
+                                                <h3 class="link-name link-name-small">{{ $p.LinkTitle }}</h3>
+                                            {{ else }}
+                                                <h3 class="link-name link-name-small">{{ $p.Title }}</h3>
+                                            {{ end }}
+                                            {{ with $p.Date }}
+                                                <time class="recent-post-date" datetime="{{ .Format "2006-01-02" }}">{{ .Format (i18n "dateFormat") }}</time>
+                                            {{ end }}
+                                        </div>
+                                        {{ with $p.Summary }}<p class="link-description link-description-small">{{ . }}</p>{{ end }}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {{ end }}
+                {{ end }}
+            </div>
+            {{ end }}
+        </div>
+        <div class="recent-posts-more">
+            <a href="{{ "/posts/" | relLangURL }}" class="see-more-button">{{ i18n "seeAllPosts" }} →</a>
+        </div>
+    </div>
+    {{ end }}
+{{ end }}

@@ -1,0 +1,37 @@
+<div class="header-wrapper">
+  {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+  <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+    <i class="fas fa-moon" id="theme-icon"></i>
+  </button>
+
+  {{ $page := . }}
+  {{ $pageLang := .Language.Name }}
+  {{ $homes := site.Home.AllTranslations }}
+  <nav class="lang-switcher" aria-label="{{ i18n "langToggle" }}">
+    <ul>
+      {{ range hugo.Sites }}
+        {{ $lang := .Language.Name }}
+        {{ $target := false }}
+        {{ if eq $lang $pageLang }}
+          {{ $target = $page }}
+        {{ else }}
+          {{ with index (where $page.Translations "Language.Name" "eq" $lang) 0 }}
+            {{ $target = . }}
+          {{ end }}
+        {{ end }}
+        {{ if not $target }}
+          {{ with index (where $homes "Language.Name" "eq" $lang) 0 }}
+            {{ $target = . }}
+          {{ end }}
+        {{ end }}
+        <li>
+          {{ if eq $lang $pageLang }}
+            <span class="lang-current" aria-current="page">{{ .Language.Label }}</span>
+          {{ else }}
+            <a href="{{ $target.RelPermalink }}" hreflang="{{ .Language.Locale }}">{{ .Language.Label }}</a>
+          {{ end }}
+        </li>
+      {{ end }}
+    </ul>
+  </nav>
+</div>

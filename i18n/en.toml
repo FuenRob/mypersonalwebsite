@@ -1,0 +1,44 @@
+[home]
+other = "Home"
+
+[copyright]
+other = "All rights reserved."
+
+[recentPosts]
+other = "Latest articles"
+
+[seeAllPosts]
+other = "See all articles"
+
+[readPost]
+other = "Read post"
+
+[avisoLegal]
+other = "Legal Notice"
+
+[politicaPrivacidad]
+other = "Privacy Policy"
+
+[condicionesUso]
+other = "Terms of Use"
+
+[postByAuthor]
+other = "Article published by"
+
+[jobTitle]
+other = "Software Developer"
+
+[dateFormat]
+other = "01/02/2006"
+
+[langToggle]
+other = "Change language"
+
+[avisoLegalSlug]
+other = "legal-notice"
+
+[politicaPrivacidadSlug]
+other = "privacy-policy"
+
+[condicionesUsoSlug]
+other = "terms-of-use"

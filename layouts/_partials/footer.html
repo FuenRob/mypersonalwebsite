@@ -1,6 +1,6 @@
-<p>Copyright {{ now.Year }}. Todos los derechos reservados.</p>
+<p>Copyright {{ now.Year }}. {{ i18n "copyright" }}</p>
 <p class="footer-legal-links" style="margin-top: 0.5rem; font-size: 0.875rem;">
-  <a href="{{ "aviso-legal/" | relURL }}">Aviso Legal</a> &bull;
-  <a href="{{ "politica-de-privacidad/" | relURL }}">Política de Privacidad</a> &bull;
-  <a href="{{ "condiciones-de-uso/" | relURL }}">Condiciones de Uso</a>
+  <a href="{{ (printf "%s/" (i18n "avisoLegalSlug")) | relLangURL }}">{{ i18n "avisoLegal" }}</a> &bull;
+  <a href="{{ (printf "%s/" (i18n "politicaPrivacidadSlug")) | relLangURL }}">{{ i18n "politicaPrivacidad" }}</a> &bull;
+  <a href="{{ (printf "%s/" (i18n "condicionesUsoSlug")) | relLangURL }}">{{ i18n "condicionesUso" }}</a>
 </p>
