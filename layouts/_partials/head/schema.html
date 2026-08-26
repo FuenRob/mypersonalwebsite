@@ -48,7 +48,7 @@
 </script>
 {{ end }}
 
-{{ if .IsPage }}
+{{ if and .IsPage (eq .Section "posts") }}
 <!-- BlogPosting Schema (Single Posts) -->
 {{ $pageImg := $authorImg }}
 {{ with .Params.image }}
@@ -72,6 +72,10 @@
   "url": "{{ .Permalink }}",
   "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
   "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
+  "dateCreated": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
+  "wordCount": {{ .WordCount }},
+  "articleSection": "{{ with index .Params.tags 0 }}{{ . }}{{ else }}Blog{{ end }}",
+  "keywords": [{{ range $i, $t := .Params.tags }}{{ if $i }}, {{ end }}"{{ $t }}"{{ end }}],
   "author": {
     "@id": "{{ $siteUrl }}#person"
   },
@@ -85,6 +89,8 @@
 {{ end }}
 
 {{ if not .IsHome }}
+{{ $isPost := and .IsPage (eq .Section "posts") }}
+{{ $blog := .CurrentSection }}
 <!-- BreadcrumbList Schema -->
 <script type="application/ld+json">
 {
@@ -96,10 +102,16 @@
       "position": 1,
       "name": "{{ i18n "home" }}",
       "item": "{{ $siteUrl }}"
-    },
+    }{{ if $isPost }},
     {
       "@type": "ListItem",
       "position": 2,
+      "name": "{{ $blog.Title }}",
+      "item": "{{ $blog.Permalink }}"
+    }{{ end }},
+    {
+      "@type": "ListItem",
+      "position": {{ if $isPost }}3{{ else }}2{{ end }},
       "name": "{{ .Title }}",
       "item": "{{ .Permalink }}"
     }
