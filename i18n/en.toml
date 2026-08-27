@@ -34,6 +34,9 @@ other = "01/02/2006"
 [langToggle]
 other = "Change language"
 
+[close]
+other = "Close"
+
 [avisoLegalSlug]
 other = "legal-notice"
 
