@@ -448,6 +448,7 @@ footer {
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   width: 100%;
+  justify-items: center;
 }
 
 .recent-post-subitem {
