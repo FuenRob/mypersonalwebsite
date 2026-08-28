@@ -1,0 +1,16 @@
+{{ if and site.Params.kofiUrl site.Params.membershipUrl }}
+<aside class="support-box">
+  <p class="support-title">{{ i18n "supportTitle" }}</p>
+  <p class="support-text">{{ i18n "supportText" }}</p>
+  <div class="support-actions">
+    <a class="support-button support-button-kofi" href="{{ site.Params.kofiUrl | safeURL }}" target="_blank" rel="noopener" aria-label="{{ i18n "supportKofiAria" }}">
+      <i class="fas fa-mug-hot" aria-hidden="true"></i>
+      <span>{{ i18n "supportKofiButton" }}</span>
+    </a>
+    <a class="support-button support-button-membership" href="{{ site.Params.membershipUrl | safeURL }}" target="_blank" rel="noopener" aria-label="{{ i18n "supportMembershipAria" }}">
+      <i class="fab fa-youtube" aria-hidden="true"></i>
+      <span>{{ i18n "supportMembershipButton" }}</span>
+    </a>
+  </div>
+</aside>
+{{ end }}

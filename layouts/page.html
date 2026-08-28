@@ -1,0 +1,25 @@
+{{ define "main" }}
+  <article class="page-container">
+    <header class="page-header">
+      <h1 class="page-title">{{ .Title }}</h1>
+        {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
+        {{ $dateHuman := .Date | time.Format ":date_long" }}
+        <time class="page-date" datetime="{{ $dateMachine }}">{{ $dateHuman }}</time>
+        {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+    </header>
+
+    {{ with .Params.image }}
+        <div class="page-image-wrap">
+          <img class="page-image" src="{{ . }}" alt="{{ $.Title }}" />
+        </div>
+    {{ end }}
+
+    <div class="page-content">
+        {{ .Content }}
+    </div>
+
+    {{ if eq .Section "posts" }}
+      {{ partial "support.html" . }}
+    {{ end }}
+  </article>
+{{ end }}

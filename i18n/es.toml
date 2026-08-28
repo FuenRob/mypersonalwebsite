@@ -45,3 +45,21 @@ other = "politica-de-privacidad"
 
 [condicionesUsoSlug]
 other = "condiciones-de-uso"
+
+[supportTitle]
+other = "¿Te ha resultado útil este artículo?"
+
+[supportText]
+other = "Si quieres apoyar lo que hago, puedes invitarme a un café o hacerte miembro del canal para acceder a contenido exclusivo. ¡Gracias!"
+
+[supportKofiButton]
+other = "Invítame a un café"
+
+[supportKofiAria]
+other = "Invítame a un café en Ko-fi"
+
+[supportMembershipButton]
+other = "Hazte miembro"
+
+[supportMembershipAria]
+other = "Hazte miembro del canal de YouTube"

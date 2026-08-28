@@ -1,0 +1,112 @@
+.support-box {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fafafa 0%, #f5f5f5 100%);
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.04);
+}
+
+.support-title {
+  margin: 0 0 0.4rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: -0.01em;
+}
+
+.support-text {
+  margin: 0 auto 1.25rem;
+  max-width: 60ch;
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.support-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.support-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, border-color 180ms ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.support-button i {
+  font-size: 1.05rem;
+}
+
+.support-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.support-button-kofi {
+  background: #ff5e5b;
+  border: 1px solid #ff5e5b;
+  color: #fff;
+}
+
+.support-button-kofi:hover {
+  background: #f04a47;
+  border-color: #f04a47;
+  color: #fff;
+}
+
+.support-button-membership {
+  background: transparent;
+  border: 1px solid #222;
+  color: #222;
+}
+
+.support-button-membership:hover {
+  background: #ff0000;
+  border-color: #ff0000;
+  color: #fff;
+}
+
+body.dark-mode .support-box {
+  border-color: #444;
+  background: linear-gradient(180deg, #2a2a2a 0%, #252525 100%);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .support-title {
+  color: #f0f0f0;
+}
+
+body.dark-mode .support-text {
+  color: #aaa;
+}
+
+body.dark-mode .support-button-membership {
+  border-color: #e0e0e0;
+  color: #e0e0e0;
+}
+
+.link-item[data-platform*="kofi"]:hover {
+  background: linear-gradient(135deg, #ff5e5b 0%, #e04845 100%);
+  color: white;
+  border-color: #ff5e5b;
+}
+
+.link-item[data-platform*="kofi"]:hover .link-description,
+.link-item[data-platform*="kofi"]:hover .link-icon i {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+body.dark-mode .link-item[data-platform*="kofi"]:hover {
+  color: white;
+}

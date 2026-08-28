@@ -5,6 +5,10 @@ enableRobotsTXT = true
 defaultContentLanguage = 'es'
 defaultContentLanguageInSubdir = false
 
+[params]
+  kofiUrl = 'https://ko-fi.com/fuenrob'
+  membershipUrl = 'https://www.youtube.com/@FuenRob/membership'
+
 [markup]
   [markup.highlight]
     codeFences = true
@@ -45,7 +49,9 @@ defaultContentLanguageInSubdir = false
         { name = 'Mi carrera profesional', url = 'https://www.linkedin.com/in/robercmorais/', description = 'Aquí puedes ver toda mi experiencia profesional', icon = 'fab fa-linkedin', platform = 'LinkedIn' },
         { name = 'Sígueme en X', url = 'https://x.com/FuenRob', icon = 'fab fa-x-twitter', platform = 'X' },
         { name = 'Sígueme en Instagram', url = 'https://www.instagram.com/fuenrob/', icon = 'fab fa-instagram', platform = 'Instagram' },
-        { name = 'Sígueme en TikTok', url = 'https://www.tiktok.com/@fuenrob', icon = 'fab fa-tiktok', platform = 'TikTok' }
+        { name = 'Sígueme en TikTok', url = 'https://www.tiktok.com/@fuenrob', icon = 'fab fa-tiktok', platform = 'TikTok' },
+        { name = 'Invítame a un café', url = 'https://ko-fi.com/fuenrob', description = 'Apoya mi trabajo con una pequeña donación', icon = 'fas fa-mug-hot', platform = 'Ko-fi' },
+        { name = 'Hazte miembro de mi canal', url = 'https://www.youtube.com/channel/UCmCAOhYY86ynJsSPnu8knGw/join', description = 'Accede a contenido exclusivo y ventajas en YouTube', icon = 'fab fa-youtube', platform = 'YouTube Membership' }
       ]
 
     [[languages.es.menus.main]]
@@ -89,7 +95,9 @@ defaultContentLanguageInSubdir = false
         { name = 'My professional career', url = 'https://www.linkedin.com/in/robercmorais/', description = 'Here you can see all my professional experience', icon = 'fab fa-linkedin', platform = 'LinkedIn' },
         { name = 'Follow me on X', url = 'https://x.com/FuenRob', icon = 'fab fa-x-twitter', platform = 'X' },
         { name = 'Follow me on Instagram', url = 'https://www.instagram.com/fuenrob/', icon = 'fab fa-instagram', platform = 'Instagram' },
-        { name = 'Follow me on TikTok', url = 'https://www.tiktok.com/@fuenrob', icon = 'fab fa-tiktok', platform = 'TikTok' }
+        { name = 'Follow me on TikTok', url = 'https://www.tiktok.com/@fuenrob', icon = 'fab fa-tiktok', platform = 'TikTok' },
+        { name = 'Buy me a coffee', url = 'https://ko-fi.com/fuenrob', description = 'Support my work with a small donation', icon = 'fas fa-mug-hot', platform = 'Ko-fi' },
+        { name = 'Join my channel membership', url = 'https://www.youtube.com/@FuenRob/membership', description = 'Get exclusive content and perks on YouTube', icon = 'fab fa-youtube', platform = 'YouTube Membership' }
       ]
 
     [[languages.en.menus.main]]
