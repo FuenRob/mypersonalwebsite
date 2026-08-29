@@ -7,7 +7,7 @@ defaultContentLanguageInSubdir = false
 
 [params]
   kofiUrl = 'https://ko-fi.com/fuenrob'
-  membershipUrl = 'https://www.youtube.com/@FuenRob/membership'
+  membershipUrl = 'https://www.youtube.com/channel/UCmCAOhYY86ynJsSPnu8knGw/join'
 
 [markup]
   [markup.highlight]
@@ -97,7 +97,7 @@ defaultContentLanguageInSubdir = false
         { name = 'Follow me on Instagram', url = 'https://www.instagram.com/fuenrob/', icon = 'fab fa-instagram', platform = 'Instagram' },
         { name = 'Follow me on TikTok', url = 'https://www.tiktok.com/@fuenrob', icon = 'fab fa-tiktok', platform = 'TikTok' },
         { name = 'Buy me a coffee', url = 'https://ko-fi.com/fuenrob', description = 'Support my work with a small donation', icon = 'fas fa-mug-hot', platform = 'Ko-fi' },
-        { name = 'Join my channel membership', url = 'https://www.youtube.com/@FuenRob/membership', description = 'Get exclusive content and perks on YouTube', icon = 'fab fa-youtube', platform = 'YouTube Membership' }
+        { name = 'Join my channel membership', url = 'https://www.youtube.com/channel/UCmCAOhYY86ynJsSPnu8knGw/join', description = 'Get exclusive content and perks on YouTube', icon = 'fab fa-youtube', platform = 'YouTube Membership' }
       ]
 
     [[languages.en.menus.main]]
