@@ -8,9 +8,9 @@ summary = 'From the "comma ok" idiom all the way down to the hmap structure: how
 translationKey = 'go-maps-key-lookup-concurrency-hmap'
 +++
 
-In **Go**, the built-in `map[K]V` is probably the most heavily used data structure in production code: in-memory caches, session indexes, message deduplication, service registries or middleware *routers*. It is so ubiquitous that we usually use it without asking ourselves **how it actually works underneath**: what really happens during a key lookup, why an empty map returns `0` instead of an error, and what that dreaded `fatal error: concurrent map writes` that takes down an entire pod at 3 AM actually means.
+In **Go**, the built-in `map[K]V` is probably the most heavily used data structure in production code: in-memory caches, session indexes, message deduplication, service registries or middleware *routers*. It is so ubiquitous that we usually use it without asking ourselves **how it actually works underneath**: what really happens during a key lookup, why a missing key returns the type's zero value instead of an error, and what that dreaded `fatal error: concurrent map writes` that takes down an entire pod at 3 AM actually means.
 
-This article covers the full journey: **from the syntax you write every day to the memory the runtime manages for you**. Every example has been compiled and executed with Go 1.27, and the fatal error *stack trace* you will see is real.
+This article covers the full journey: **from the syntax you write every day to the memory the runtime manages for you**. Every example has been compiled and executed with Go 1.27, and the fatal error *stack trace* you will see is real. The benchmark figures are one concrete measurement, not a universal property: they may vary with the hardware, operating system and parallelism settings.
 
 ---
 
@@ -88,7 +88,7 @@ if used == 0 {
 
 - If the zero value is **semantically valid** for your domain (`map[string]bool`, counters where zero carries no information), the plain `m[k]` read is perfectly idiomatic.
 - If you need to **distinguish absence from a zero value**, always use the `ok` form.
-- `if _, ok := m[k]; !ok` is the standard pattern to **insert only if absent** (the manual equivalent of `sync.Map.LoadOrStore`).
+- `if _, ok := m[k]; !ok` is the standard pattern to **insert only if absent** when there is no concurrent access. Under concurrency it is not atomic and is not equivalent to `sync.Map.LoadOrStore`.
 - `delete(m, k)` on a missing key is a **no-op with no error**; no previous check is needed.
 - A nil map (`var m map[string]int`) is **readable** (it returns the zero value and `ok = false`) but **not writable**: `m["a"] = 1` panics with the recoverable error `assignment to entry in nil map`. Always initialize with `make`.
 
@@ -203,11 +203,11 @@ All of this is what a well-sized `m[k]` costs: **one hash, one bitmask, a handfu
 
 ### 2.4 Growth: incremental evacuation
 
-When `count > 6.5 × 2^B` (Go's classic *load factor*: 13/2), the map doubles `B` and allocates a new table. But it does **not copy everything at once** (that would create a latency spike fatal for a server): entries are **evacuated progressively** as writes happen (the `nevacuate` field tracks progress). During the transition, reads and writes consult both tables, and the `evacuatedX/Y` flags in `tophash` indicate where each key lives now. Iterators also start at a random bucket — hence the random order of `range`.
+When `count > 6.5 × 2^B` (Go's classic *load factor*: 13/2), or when too many overflow buckets accumulate, the map may grow. In the first case it doubles `B` and allocates a new table; in the second it may perform a same-size grow to reorganize overflows. But it does **not copy everything at once** (that would create a latency spike fatal for a server): entries are **evacuated progressively** as writes happen (the `nevacuate` field tracks progress). During the transition, reads and writes consult both tables, and the `evacuatedX/Y` flags in `tophash` indicate where each key lives now. Iterators also start at a random bucket — hence the random order of `range`.
 
 {{< details title="Go 1.24+: the Swiss Tables era (runtime update)" open=true >}}
 
-If you run `go version` and see **Go 1.24 or newer**, the map running in production **no longer uses `hmap`/`bmap`**. The Go team rewrote the implementation based on **Swiss Tables** (the design behind Google's `absl` library), in `src/internal/runtime/maps/map.go`. The current structure (Go 1.27) is:
+If you run `go version` and see **Go 1.24 or newer**, the map running in production **no longer uses `hmap`/`bmap`**. The Go team rewrote the implementation based on **Swiss Tables** (the design behind Google's `absl` library), in `src/internal/runtime/maps/map.go`. You can read more in the [official article on Swiss Tables](https://go.dev/blog/swisstable). The current structure (Go 1.27) is:
 
 ```go
 // src/internal/runtime/maps/map.go (Go 1.27)
@@ -287,7 +287,7 @@ created by main.main in goroutine 1
 exit status 2
 ```
 
-Note the critical nuance: it says **`fatal error`**, not `panic`. A `panic` in Go can be intercepted with `recover()`; a fatal error **cannot be recovered under any circumstance**: the runtime terminates the entire process with exit code 2. No `defer` will save you, no recovery *middleware* will save the pod.
+Note the critical nuance: it says **`fatal error`**, not `panic`. A `panic` in Go can be intercepted with `recover()`; a fatal error **cannot be recovered under any circumstance**: the runtime terminates the entire process with exit code 2. No `defer` will save you, no recovery *middleware* will save the pod. The runtime detector covers specific forms of concurrent misuse; it does not replace `-race` analysis or explicit synchronization.
 
 ### Why so drastic?
 
@@ -306,7 +306,7 @@ Details that surprise even veteran Go developers:
 - `m[k]++` is a composed **read + write**: it also kills the process, even though you are "only incrementing".
 - A **read concurrent with a write** is enough; you don't even need two writers.
 - Iterating (`for k := range m`) while another goroutine writes triggers `fatal error: concurrent map iteration and map write`.
-- Go's race detector (`go run -race`, `go test -race`) detects this condition in development and CI **before** it reaches production. Run your load tests with `-race`: it is the cheapest safety net available.
+- Go's race detector (`go run -race`, `go test -race`) can detect this condition in development and CI **before** it reaches production, although that depends on the execution covering the problematic interleaving. Run your load tests with `-race`: it is a very inexpensive safety net.
 
 {{< details title="Why doesn't the runtime synchronize maps automatically?" >}}
 
@@ -378,7 +378,7 @@ func (c *Cache) Set(key string, val []byte) {
 
 ### 4.3 `sync.Map`: the special case
 
-`sync.Map` (since Go 1.9) is a different type, not a generic replacement. Its classic implementation kept two representations: a read map (`read`) accessed **without a lock** (via atomics) and a `dirty` map protected by a mutex, with a *misses* counter that decides when to promote `dirty` to `read`. Since **Go 1.24**, the internal implementation is a **concurrent hash-trie**, with much better overall performance. Its authors explicitly recommend it for two scenarios:
+`sync.Map` (since Go 1.9) is a different type, not a generic replacement. Its classic implementation kept two representations: a read map (`read`) accessed **without a lock** (via atomics) and a `dirty` map protected by a mutex, with a *misses* counter that decides when to promote `dirty` to `read`. Since **Go 1.24**, the internal implementation is a **concurrent hash-trie**, with improvements that are especially visible for modifications and larger maps. The [official `sync.Map` documentation](https://pkg.go.dev/sync#Map) explicitly recommends it for two scenarios:
 
 1. **Keys written once and read many times** (*write-once, read-many*): caches that only grow, configuration tables, immutable lookups.
 2. **Goroutines that read/write/overwrite disjoint sets of keys** (no overlap).
@@ -401,6 +401,8 @@ func StoreConfig(tenant string, cfg Config) {
 // LoadOrStore atomically solves the "insert if absent" pattern:
 // it returns the existing value and loaded=true if it was already there.
 func GetOrCreate(tenant string, mkDefault func() Config) Config {
+	// mkDefault is evaluated before LoadOrStore is called. If creating the
+	// value is expensive or has side effects, use a mutex or singleflight.
 	v, _ := configByTenant.LoadOrStore(tenant, mkDefault())
 	return v.(Config)
 }
@@ -443,11 +445,11 @@ func (s *SafeMap[K, V]) Store(key K, value V) {
 | `map` + `sync.Mutex` | Whole map (exclusive) | Medium | **Low** | Full | Generic shared state, frequent writes, multi-step sequences | Massive concurrent reads (the lock becomes the bottleneck) |
 | `map` + `sync.RWMutex` | Parallel readers / 1 writer | Low (in theory) | High | Full | Very read-dominant loads (>90%) with sporadic writes | Frequent writes or high contention: can perform **worse** than `Mutex` |
 | `sync.Map` | Per key, *lock-free* reads | **Minimal** | Medium-high | `any` (requires assertions) | *Write-once/read-many*, append-only caches, disjoint keys per goroutine | Frequently mutated keys, need for `len()`, transactions across several keys |
-| *(Bonus)* N sharded maps with mutexes | Per shard (e.g. 32 maps) | Low | Low | Full | Extreme-scale write-heavy loads (the stdlib's hash-trie uses this idea) | Complexity: only if the *profiler* justifies it |
+| *(Bonus)* N sharded maps with mutexes | Per shard (e.g. 32 maps) | Low | Low | Full | Extreme-scale write-heavy loads | Complexity: only if the *profiler* justifies it |
 
-### Real benchmark (Go 1.27)
+### Example benchmark (Go 1.27)
 
-Numbers measured on an Intel Core i7-11800H (8 cores / 16 threads), 1 024 keys, `b.RunParallel` with 16 goroutines, operation mix by percentage:
+Numbers measured on an Intel Core i7-11800H (8 cores / 16 threads), 1 024 keys and `GOMAXPROCS=16`. `b.RunParallel` uses the parallelism configured by `GOMAXPROCS`; therefore, the number of goroutines should not be presented as a benchmark constant. The operation mix is:
 
 | Scenario | `Mutex` | `RWMutex` | `sync.Map` |
 |---|---|---|---|
@@ -459,7 +461,7 @@ Three conclusions from the table worth internalizing:
 
 1. **`sync.Map` crushes pure reads** (~20× over `Mutex`): its read path takes no lock at all.
 2. **`RWMutex` lost to `Mutex` in every scenario with contention**. The cost of the shared atomic counter and of the writer coordination outweighed the benefit of read parallelism. It is the best argument for not choosing strategies on intuition.
-3. With 50% writes, `sync.Map` still holds up (thanks to the Go 1.24+ hash-trie; with the pre-1.24 implementation the write results were far worse), but the plain `Mutex` is the king of mixed loads.
+3. With 50% writes, `sync.Map` still holds up (thanks to the Go 1.24+ hash-trie; with the pre-1.24 implementation the write results could be worse), but the plain `Mutex` is the king of this particular mixed load.
 
 The full benchmark code, so you can replicate it on your hardware (the absolute numbers will change; the trends, usually not):
 
@@ -572,7 +574,7 @@ func BenchmarkRead50Write50(b *testing.B) {
 }
 ```
 
-Run it with: `go test -bench . -benchtime 1s -benchmem`
+Run it with: `go test -bench . -benchtime 1s -benchmem -cpu 16` (adjust `-cpu` to your environment).
 
 {{< /details >}}
 
@@ -582,7 +584,7 @@ Run it with: `go test -bench . -benchtime 1s -benchmem`
 
 Go's maps are a masterclass in design: a three-character API (`m[k]`) that hides a precise performance contract (amortized constant-time lookups, with hash flooding prevented by a random seed), a memory layout obsessed with the CPU cache (the `tophash` as a one-byte filter, contiguous keys and values to eliminate padding), and a deliberately *fail-fast* concurrency policy.
 
-But that design delegates the most important decision to you, the developer: **who owns the map when more than one goroutine is watching**. The runtime will not protect you; it will kill the process to protect memory. And since Go 1.24, even though the guts (`hmap`/`bmap` → Swiss Tables) have changed completely, that contract remains intact.
+But that design delegates the most important decision to you, the developer: **who owns the map when more than one goroutine is watching**. The runtime does not automatically synchronize access and may terminate the process when it detects certain invalid concurrent uses. And since Go 1.24, even though the guts (`hmap`/`bmap` → Swiss Tables) have changed completely, that contract remains intact.
 
 ### Key Takeaways
 
@@ -590,4 +592,4 @@ But that design delegates the most important decision to you, the developer: **w
 2. **The lookup is a progressive filter designed for the cache**: bitmask for the bucket → `tophash` (one byte) → comparison of the real key. Contiguous keys and values avoid padding and keep locality. A map is not "an array of pairs": it is a performance machine.
 3. **`fatal error: concurrent map writes` cannot be recovered**: it is not a `panic`. The runtime detects concurrency with a flag (`writing`) and prefers to die before corrupting memory. If more than one goroutine has write access, synchronize from day one, and run `go test -race` in CI.
 4. **There is no universally winning strategy**: `Mutex` for simplicity and mixed loads, `RWMutex` only if reads clearly dominate (and after measuring! it can perform worse than `Mutex`), `sync.Map` for *write-once/read-many* and disjoint keys. Always encapsulate: mutex inside a struct, never expose the map.
-5. **Internals are a mental model, not a language constant**: `hmap`/`bmap` described the runtime up to Go 1.23; since Go 1.24 the Swiss Tables implementation rules with a 7/8 load factor. The language semantics are stable, but measure with `pprof` and benchmarks before assuming internal costs.
+5. **Internals are a mental model, not a language constant**: `hmap`/`bmap` described the runtime up to Go 1.23; since Go 1.24 the Swiss Tables implementation rules with a 7/8 load factor. The language semantics are stable, but measure with `pprof` and benchmarks before assuming internal costs. The figures in this article are illustrative and should be reproduced in the target environment.
