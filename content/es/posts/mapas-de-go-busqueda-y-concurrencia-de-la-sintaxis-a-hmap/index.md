@@ -91,6 +91,7 @@ if used == 0 {
 - `if _, ok := m[k]; !ok` es el patrón estándar para **insertar solo si no existe** cuando no hay acceso concurrente. Bajo concurrencia no es atómico y no equivale a `sync.Map.LoadOrStore`.
 - `delete(m, k)` sobre una clave inexistente es una operación **sin efecto ni error**; no necesita comprobación previa.
 - Un `map` nulo (`var m map[string]int`) es **legible** (devuelve el valor cero y `ok = false`) pero **no escribible**: `m["a"] = 1` provoca un pánico recuperable `assignment to entry in nil map`. Inicializa siempre con `make`.
+- Los elementos de un mapa **no son direccionables**: `&m[k]` no compila, y tampoco puedes modificar directamente un campo de una estructura almacenada por valor (`m[k].Campo = v`). Copia el valor, modifícalo y vuelve a guardarlo; o almacena punteros si ese es el modelo de propiedad que necesitas. Un puntero a la copia no es un puntero a la entrada del mapa.
 
 {{< details title="Ponte a prueba: ¿qué imprime este código?" >}}
 

@@ -91,6 +91,7 @@ if used == 0 {
 - `if _, ok := m[k]; !ok` is the standard pattern to **insert only if absent** when there is no concurrent access. Under concurrency it is not atomic and is not equivalent to `sync.Map.LoadOrStore`.
 - `delete(m, k)` on a missing key is a **no-op with no error**; no previous check is needed.
 - A nil map (`var m map[string]int`) is **readable** (it returns the zero value and `ok = false`) but **not writable**: `m["a"] = 1` panics with the recoverable error `assignment to entry in nil map`. Always initialize with `make`.
+- Map elements are **not addressable**: `&m[k]` does not compile, and you cannot modify a field of a struct stored by value directly (`m[k].Field = v`). Copy the value, modify it, and assign it back—or store pointers when that is the ownership model you need. A pointer to the copy is not a pointer to the map entry.
 
 {{< details title="Test yourself: what does this code print?" >}}
 
