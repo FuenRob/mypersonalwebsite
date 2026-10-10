@@ -40,7 +40,7 @@ if err != nil {
 }
 ```
 
-El verbo `%w` preserva el error original dentro de la cadena. Eso permite inspeccionarlo posteriormente con `errors.Is` y `errors.As`.
+El verbo `%w` preserva el error original dentro de la cadena. Eso permite inspeccionarlo posteriormente con `errors.Is` y `errors.AsType` (o `errors.As` en versiones anteriores).
 
 ### `errors.Is`: comprobar una causa concreta
 
@@ -50,12 +50,12 @@ if errors.Is(err, os.ErrNotExist) {
 }
 ```
 
-### `errors.As`: extraer un tipo de error
+### `errors.AsType`: extraer un tipo de error
+
+Desde Go 1.26, `errors.AsType[T]` devuelve el error encontrado y un booleano, sin necesitar un puntero a una variable auxiliar:
 
 ```go
-var pathErr *os.PathError
-
-if errors.As(err, &pathErr) {
+if pathErr, ok := errors.AsType[*os.PathError](err); ok {
 	fmt.Println("operación:", pathErr.Op)
 	fmt.Println("ruta:", pathErr.Path)
 }
@@ -138,13 +138,20 @@ func main() {
 	defer cancel()
 
 	err := procesar(ctx)
-	if err != nil && !errors.Is(err, context.Canceled) {
-		fmt.Println("proceso finalizado:", err)
+	if err != nil {
+		switch {
+		case errors.Is(err, context.DeadlineExceeded):
+			fmt.Println("se agotó el plazo:", err)
+		case errors.Is(err, context.Canceled):
+			fmt.Println("trabajo cancelado:", err)
+		default:
+			fmt.Println("proceso finalizado con error:", err)
+		}
 	}
 }
 ```
 
-Ahora queda claro quién crea el contexto, quién puede cancelarlo y qué ocurre si el trabajo tarda demasiado.
+Ahora queda claro quién crea el contexto, quién puede cancelarlo y qué ocurre si el trabajo tarda demasiado. `context.Canceled` indica cancelación explícita; `context.DeadlineExceeded` indica que venció el plazo. Conviene distinguirlos: un timeout no es una cancelación voluntaria.
 
 ### Herramientas para coordinar goroutines
 
@@ -153,19 +160,16 @@ Para varias goroutines sencillas, `sync.WaitGroup` permite esperar a que todas t
 ```go
 var wg sync.WaitGroup
 
-for i := 0; i < 3; i++ {
-	wg.Add(1)
-
-	go func(id int) {
-		defer wg.Done()
-		fmt.Println("worker", id)
-	}(i)
+for i := range 3 {
+	wg.Go(func() {
+		fmt.Println("worker", i)
+	})
 }
 
 wg.Wait()
 ```
 
-Si además necesitas propagar errores o cancelar el resto del trabajo cuando una goroutine falla, [`errgroup`](https://pkg.go.dev/golang.org/x/sync/errgroup) suele ser una opción más cómoda.
+Desde Go 1.25, `WaitGroup.Go` inicia la goroutine y registra su finalización. La función que recibe no debe provocar un panic; `WaitGroup` tampoco propaga errores ni cancela trabajos. Si necesitas propagar errores o cancelar el resto del trabajo cuando una goroutine falla, [`errgroup`](https://pkg.go.dev/golang.org/x/sync/errgroup) suele ser una opción más cómoda.
 
 Y para detectar accesos concurrentes inseguros, acostúmbrate a ejecutar:
 
@@ -173,7 +177,7 @@ Y para detectar accesos concurrentes inseguros, acostúmbrate a ejecutar:
 go test -race ./...
 ```
 
-El detector de carreras no sustituye a un buen diseño, pero encuentra una clase de errores extremadamente difícil de detectar revisando el código a simple vista.
+El detector de carreras no sustituye a un buen diseño, pero encuentra una clase de errores extremadamente difícil de detectar revisando el código a simple vista. Solo detecta las carreras que ocurren en las rutas ejecutadas: unos tests con poca cobertura pueden dejar otras sin descubrir.
 
 Antes de escribir `go func()`, hazte tres preguntas:
 
@@ -219,7 +223,7 @@ Un error común al empezar es utilizar punteros en todas partes porque pensamos 
 
 No necesariamente.
 
-El compilador de Go realiza **escape analysis** para decidir si un valor puede vivir en la stack o debe escapar al heap. Ciertos usos de punteros pueden contribuir a que un valor escape, lo que puede aumentar las asignaciones y la presión sobre el garbage collector.
+El compilador de Go realiza **escape analysis** para decidir si un valor puede vivir en la stack o debe escapar al heap. Pasar un puntero no implica por sí solo una asignación en el heap, y pasar por valor tampoco garantiza que no haya escape. La decisión depende del uso concreto y de lo que el compilador pueda demostrar. Las copias de structs grandes también tienen un coste; mídelo si el rendimiento importa.
 
 Puedes inspeccionar parte de estas decisiones con:
 
@@ -238,7 +242,9 @@ Los punteros tienen semántica:
 
 Por eso la pregunta principal debería ser:
 
-**¿Necesito compartir identidad o modificar este valor?**
+**¿Necesito compartir identidad, modificar este valor o evitar una copia costosa?**
+
+Recuerda que pasar un slice o un map por valor copia su descriptor, no todos sus elementos; eso no los convierte en copias independientes.
 
 ### Mantén coherentes los receivers
 
@@ -254,7 +260,7 @@ func (u *User) DisplayName() string {
 }
 ```
 
-Mezclar arbitrariamente métodos con receiver por valor y por puntero puede hacer menos predecible la API y su method set.
+Mezclar arbitrariamente métodos con receiver por valor y por puntero puede hacer menos predecible la API y su method set. Un `*User` tiene ambos conjuntos de métodos, mientras que `User` no incluye los métodos definidos solo para `*User` en su method set; esto importa al satisfacer interfaces.
 
 ### Cuidado con structs que contienen `sync.Mutex`
 
@@ -440,29 +446,33 @@ Ahora cada `defer file.Close()` se ejecuta al terminar `procesarArchivo`.
 
 ### `Close` también puede devolver un error
 
-Este detalle importa especialmente al escribir archivos.
+Este detalle importa especialmente al escribir archivos. Un `defer file.Close()` sin comprobar el resultado descarta posibles errores al cerrar. Tampoco conviene retornar antes de cerrar un archivo abierto si falla la escritura o `Sync`.
 
-Un ejemplo como:
-
-```go
-defer file.Close()
-```
-
-ignora el error devuelto por `Close`.
-
-Durante una escritura, algunos errores pueden aparecer precisamente al hacer flush o cerrar el archivo. Si necesitas garantizar que los datos se han persistido correctamente, debes comprobar ese error:
+Si necesitas solicitar que los datos se sincronicen con el almacenamiento, comprueba `Write`, `Sync` y `Close`, y preserva tanto el error principal como el del cierre:
 
 ```go
-if _, err := file.Write(data); err != nil {
-	return err
-}
+func guardar(path string, data []byte) (err error) {
+	file, err := os.Create(path)
+	if err != nil {
+		return fmt.Errorf("creando archivo: %w", err)
+	}
+	defer func() {
+		if closeErr := file.Close(); closeErr != nil {
+			err = errors.Join(err, fmt.Errorf("cerrando archivo: %w", closeErr))
+		}
+	}()
 
-if err := file.Close(); err != nil {
-	return fmt.Errorf("cerrando archivo: %w", err)
+	if _, err := file.Write(data); err != nil {
+		return fmt.Errorf("escribiendo archivo: %w", err)
+	}
+	if err := file.Sync(); err != nil {
+		return fmt.Errorf("sincronizando archivo: %w", err)
+	}
+	return nil
 }
 ```
 
-`defer` sigue siendo excelente para cerrar recursos, desbloquear mutexes, cancelar contextos y ejecutar cleanup. Lo importante es entender **cuándo se ejecutará realmente** y si necesitas observar el error de limpieza.
+`Sync` puede ser necesario cuando importa la durabilidad, pero su garantía concreta depende del sistema de archivos y del almacenamiento. Para una sustitución atómica y durable de un archivo hacen falta pasos adicionales. En lecturas corrientes, normalmente basta con cerrar mediante `defer`; lo importante es entender **cuándo se ejecutará realmente** y cuándo necesitas observar el error de limpieza.
 
 ---
 
@@ -501,13 +511,24 @@ Desde Go 1.22, `http.ServeMux` permite declarar métodos y parámetros directame
 package main
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 )
 
 func main() {
+	if err := ejecutarServidor(); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func ejecutarServidor() error {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /users/{id}", func(w http.ResponseWriter, r *http.Request) {
@@ -521,16 +542,32 @@ func main() {
 		ReadHeaderTimeout: 5 * time.Second,
 	}
 
-	log.Fatal(server.ListenAndServe())
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+
+	serveErr := make(chan error, 1)
+	go func() { serveErr <- server.ListenAndServe() }()
+
+	select {
+	case err := <-serveErr:
+		if errors.Is(err, http.ErrServerClosed) {
+			return nil
+		}
+		return fmt.Errorf("servidor HTTP: %w", err)
+	case <-ctx.Done():
+	}
+
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	shutdownErr := server.Shutdown(shutdownCtx)
+	if err := <-serveErr; !errors.Is(err, http.ErrServerClosed) {
+		return errors.Join(shutdownErr, fmt.Errorf("servidor HTTP: %w", err))
+	}
+	return shutdownErr
 }
 ```
 
-Aquí hacemos dos cosas importantes:
-
-1. **No ignoramos el error** devuelto por `ListenAndServe`.
-2. Configuramos al menos `ReadHeaderTimeout`, evitando dejar un servidor sin ningún timeout configurado.
-
-En una aplicación real también deberías valorar `ReadTimeout`, `WriteTimeout`, `IdleTimeout` y un apagado ordenado con `Server.Shutdown`, según el tipo de servicio.
+Aquí comprobamos el error de `ListenAndServe` y esperamos a que `Shutdown` termine antes de salir. Si el apagado falla o agota el plazo, el error llega a `main` y el proceso termina con fallo. Tras un apagado ordenado, `ListenAndServe` devuelve `http.ErrServerClosed`: es el resultado esperado, no un fallo que deba registrarse como fatal. `ReadHeaderTimeout` limita la lectura de cabeceras; según el servicio, conviene valorar también `ReadTimeout`, `WriteTimeout` e `IdleTimeout`. Esos límites tienen efectos distintos, por ejemplo sobre peticiones o respuestas largas, y deben elegirse según la carga real. `Shutdown` espera las conexiones HTTP activas hasta que venza su contexto, pero no espera conexiones secuestradas, como WebSockets; estas requieren su propio cierre.
 
 La documentación de [`net/http`](https://pkg.go.dev/net/http) explica todas estas opciones.
 
@@ -575,13 +612,15 @@ No todo depende de la revisión manual.
 
 El ecosistema de Go incluye herramientas excelentes que deberías incorporar al flujo de trabajo.
 
-### `gofmt`
+### `go fmt` y `go fix`
 
 ```bash
-gofmt -w .
+go fmt ./...
+go fix -diff ./...
+go fix ./...
 ```
 
-Elimina las discusiones sobre formato y mantiene todo el código con un estilo consistente.
+`go fmt` aplica `gofmt` a los paquetes seleccionados y mantiene el código con un estilo consistente. `go fix -diff` muestra los cambios propuestos sin aplicarlos; si te convencen, `go fix` aplica las modernizaciones disponibles para el código y la versión de Go del proyecto. Revisa también el diff después, porque puede reescribir fuentes. Para un fichero concreto también puedes usar `gofmt -w archivo.go`.
 
 ### `go vet`
 
@@ -597,7 +636,7 @@ Detecta construcciones sospechosas que compilan correctamente pero pueden escond
 go test -race ./...
 ```
 
-Es imprescindible en código concurrente para localizar data races durante la ejecución de los tests.
+Ayuda a localizar data races durante la ejecución de los tests, pero solo en las rutas que estos ejercitan. Para ampliar la cobertura, también puedes ejecutar con `-race` el programa bajo una carga representativa.
 
 ### `errcheck` y `golangci-lint`
 
@@ -649,8 +688,6 @@ Con el tiempo empiezas a reconocer las decisiones que hacen que un programa sea 
 - comprender `len`, `cap` y el backing array de los slices;
 - usar `defer` conociendo exactamente cuándo se ejecuta;
 - mirar primero la biblioteca estándar antes de añadir una dependencia;
-- apoyarte en herramientas como `go vet`, `gofmt` y el race detector.
+- apoyarte en herramientas como `go fmt`, `go fix`, `go vet` y el race detector.
 
 Y probablemente ahí es donde dejas de escribir simplemente código que **funciona en Go** y empiezas a escribir código que **se siente como Go**.
-
-¿Cuál de estos errores cometiste más cuando empezaste con Go?
